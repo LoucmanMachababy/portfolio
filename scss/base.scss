@@ -1,0 +1,12 @@
+body {
+    background-color: #1f2937; 
+    color: $textColor;
+}
+
+a {
+    color: $firstColor;
+    text-decoration: none;
+    &:hover {
+        color: lighten($firstColor, 10%);
+    }
+}

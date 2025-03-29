@@ -1,0 +1,62 @@
+/* main.scss */
+@import 'variable';
+@import 'groupbtn';
+@import 'base';
+@import 'nav';
+@import 'components';
+
+/* Ajout d'un style général pour la mise en page */
+body {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Section Accueil */
+#accueil {
+    @include flex-center;
+    min-height: 100vh;
+    background: url('../images/stadium-bg.jpg') center/cover no-repeat;
+    text-align: center;
+    
+    .hero-content {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 2rem;
+        border-radius: $border-radius;
+    }
+}
+
+/* Boutons */
+.btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: $border-radius;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    @include transition(0.3s);
+    
+    &.btn-primary {
+        background: $firstColor;
+        color: $textColor;
+        
+        &:hover {
+            background: darken($firstColor, 10%);
+        }
+    }
+    
+    &.btn-secondary {
+        border: 2px solid $textColor;
+        color: $textColor;
+        
+        &:hover {
+            background: $textColor;
+            color: $SecondColor;
+        }
+    }
+}
+

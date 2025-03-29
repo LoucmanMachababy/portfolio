@@ -1,0 +1,11 @@
+.btn {
+    background-color: $firstColor;
+    color: $textColor;
+    padding: $espace;
+    border-radius: $border-radius;
+    @include transition(0.3s);
+
+    &:hover {
+        background-color: darken($firstColor, 10%);
+    }
+}
