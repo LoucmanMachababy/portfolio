@@ -1,8 +1,8 @@
 @import 'variable';
 
 nav {
-    background: rgba(0, 0, 0, 0.7); /* Légère transparence pour un effet moderne */
-    backdrop-filter: blur(10px); /* Effet de flou pour un style élégant */
+    background: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(10px); 
     padding: $espace 0;
     position: fixed;
     width: 100%;

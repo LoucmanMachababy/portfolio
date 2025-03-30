@@ -282,8 +282,8 @@ footer {
 }
 
 nav {
-  background: rgba(0, 0, 0, 0.7); /* Légère transparence pour un effet moderne */
-  backdrop-filter: blur(10px); /* Effet de flou pour un style élégant */
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   padding: 16px 0;
   position: fixed;
   width: 100%;
@@ -391,6 +391,163 @@ nav ul li a:hover {
 .btn.btn-secondary:hover {
   background: white;
   color: #313a47;
+}
+
+/* Pages de détails */
+.project-details {
+  max-width: 1200px;
+  margin: 2rem auto;
+  color: white;
+}
+.project-details h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #0ba874;
+}
+.project-details .project-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+@media (max-width: 768px) {
+  .project-details .project-header {
+    flex-direction: column;
+  }
+}
+.project-details .project-image {
+  flex: 1;
+}
+.project-details .project-image img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.project-details .project-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.project-details .project-meta {
+  margin-bottom: 1rem;
+}
+.project-details .project-meta span {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #aaa;
+}
+.project-details .project-content h2 {
+  color: #0ba874;
+  margin: 2rem 0 1rem;
+  font-size: 1.8rem;
+}
+.project-details .project-content ul {
+  margin-left: 1.5rem;
+  line-height: 1.6;
+}
+.project-details .technologies-used {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.project-details .technologies-used .tech-tag {
+  background: rgba(11, 168, 116, 0.2);
+  color: #0ba874;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+#biographie {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 1000px;
+  margin: 40px auto;
+}
+#biographie .bio-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+@media (max-width: 768px) {
+  #biographie .bio-content {
+    flex-direction: column;
+  }
+}
+#biographie .bio-image {
+  flex: 1;
+  text-align: center;
+}
+#biographie .bio-image img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 50%;
+  border: 5px solid #0ba874;
+  box-shadow: 0 0 20px rgba(11, 168, 116, 0.5);
+  transition: transform 0.3s ease;
+}
+#biographie .bio-image img:hover {
+  transform: scale(1.05);
+}
+#biographie .bio-text {
+  flex: 2;
+  text-align: left;
+}
+#biographie .bio-text p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+#contact {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+}
+#contact h2 {
+  margin-bottom: 30px;
+  color: #0ba874;
+}
+#contact form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+#contact .input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 2px solid #313a47;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-family: "Orbitron", sans-serif;
+  transition: all 0.3s ease;
+}
+#contact .input:focus {
+  outline: none;
+  border-color: #0ba874;
+  box-shadow: 0 0 10px rgba(11, 168, 116, 0.5);
+}
+#contact textarea.input {
+  min-height: 150px;
+  resize: vertical;
+}
+#contact .btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  background: #0ba874;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+#contact .btn:hover {
+  background: rgb(7.8659217877, 120.1340782123, 82.9497206704);
+  transform: translateY(-2px);
 }
 
 /*# sourceMappingURL=main.css.map */
