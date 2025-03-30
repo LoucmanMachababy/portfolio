@@ -3,6 +3,9 @@
 body {
   background-color: #1f2937;
   color: white;
+  font-family: "Orbitron", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -11,6 +14,271 @@ a {
 }
 a:hover {
   color: rgb(14.1340782123, 215.8659217877, 149.0502793296);
+}
+
+.navbar {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 16px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.navbar .nav-links li a {
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+.navbar .nav-links li a:hover {
+  color: #0ba874;
+}
+
+.hero {
+  height: 100vh;
+  background: url("../images/background.jpg") center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.hero .hero-content {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.btn {
+  background-color: #0ba874;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  background-color: rgb(7.8659217877, 120.1340782123, 82.9497206704);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid #0ba874;
+}
+.btn-secondary:hover {
+  background-color: #0ba874;
+}
+
+.section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.projet-card {
+  background: #313a47;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+.projet-card .icon {
+  font-size: 3rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.skills-grid .skill {
+  text-align: left;
+}
+.skills-grid .skill .progress-bar {
+  background: #444;
+  height: 10px;
+  border-radius: 5px;
+}
+.skills-grid .skill .progress-bar .progress {
+  background: #0ba874;
+  height: 100%;
+  border-radius: 5px;
+}
+
+#biographie {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 800px;
+  margin: 40px auto;
+}
+
+footer {
+  background: black;
+  text-align: center;
+  padding: 20px;
+}
+
+body {
+  background-color: #1f2937;
+  color: white;
+}
+
+a {
+  color: #0ba874;
+  text-decoration: none;
+}
+a:hover {
+  color: rgb(14.1340782123, 215.8659217877, 149.0502793296);
+}
+
+body {
+  background-color: #1f2937;
+  color: white;
+  font-family: "Orbitron", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #0ba874;
+  text-decoration: none;
+}
+a:hover {
+  color: rgb(14.1340782123, 215.8659217877, 149.0502793296);
+}
+
+.navbar {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 16px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.navbar .nav-links li a {
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+.navbar .nav-links li a:hover {
+  color: #0ba874;
+}
+
+.hero {
+  height: 100vh;
+  background: url("../images/background.jpg") center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.hero .hero-content {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.btn {
+  background-color: #0ba874;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  background-color: rgb(7.8659217877, 120.1340782123, 82.9497206704);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid #0ba874;
+}
+.btn-secondary:hover {
+  background-color: #0ba874;
+}
+
+.section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.projet-card {
+  background: #313a47;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+.projet-card .icon {
+  font-size: 3rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.skills-grid .skill {
+  text-align: left;
+}
+.skills-grid .skill .progress-bar {
+  background: #444;
+  height: 10px;
+  border-radius: 5px;
+}
+.skills-grid .skill .progress-bar .progress {
+  background: #0ba874;
+  height: 100%;
+  border-radius: 5px;
+}
+
+#biographie {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 800px;
+  margin: 40px auto;
+}
+
+footer {
+  background: black;
+  text-align: center;
+  padding: 20px;
 }
 
 nav {
@@ -76,11 +344,6 @@ nav ul li a:hover {
 }
 .btn:hover {
   background-color: rgb(7.8659217877, 120.1340782123, 82.9497206704);
-}
-
-/* Ajout d'un style général pour la mise en page */
-body {
-  font-family: "Orbitron", sans-serif;
 }
 
 .container {
