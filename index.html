@@ -105,16 +105,40 @@
         <section id="contact" class="container section">
             <h2>Contactez-moi</h2>
             <div class="contact-form-container">
-                <form class="contact-form">
+                <form 
+                    action="https://formspree.io/f/mqapdgvn" 
+                    method="POST"
+                    class="contact-form"
+                >
                     <div class="form-group">
-                        <input type="text" placeholder="Nom" class="input" required>
+                        <input 
+                            type="text" 
+                            name="name" 
+                            placeholder="Nom" 
+                            class="input" 
+                            required
+                        >
                     </div>
                     <div class="form-group">
-                        <input type="email" placeholder="Email" class="input" required>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            placeholder="Email" 
+                            class="input" 
+                            required
+                        >
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="Votre message" class="input" rows="5" required></textarea>
+                        <textarea 
+                            name="message" 
+                            placeholder="Votre message" 
+                            class="input" 
+                            rows="5" 
+                            required
+                        ></textarea>
                     </div>
+                    <input type="hidden" name="_subject" value="Nouveau message depuis votre portfolio">
+                    <input type="hidden" name="_next" value="https://votresite.com/merci.html">
                     <button type="submit" class="btn">Envoyer</button>
                 </form>
             </div>
