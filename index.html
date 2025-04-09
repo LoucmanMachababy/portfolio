@@ -3,157 +3,497 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Développeur Web</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+    <title>FIFA Portfolio - Loucman MACHABABY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">Loucman MACHABABY</div>
-            <ul class="nav-links">
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#projets">Projets</a></li>
-                <li><a href="#competences">Compétences</a></li>
-                <li><a href="#biographie">Biographie</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <!-- Écran de chargement -->
+    <div id="loading-screen">
+        <div class="ea-logo">
+            <div class="logo-img">LM</div>
+            <div class="logo-text">BIENVENUE SUR MON PORTFOLIO</div>
         </div>
-    </nav>
+        <div class="loader-container">
+            <div class="loader"></div>
+        </div>
+        <div class="loading-text">Chargement du portfolio...</div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
     
-    <main>
-        <section id="accueil" class="hero">
-            <div class="hero-content">
-                <h1>En Formation Développeur Full-Stack</h1>
-                <p>👇Découvrez mes projets ou contactez moi ci-dessous👇</p>
-                <div class="cta">
-                    <a href="#projets" class="btn">Voir mes Projets</a>
-                    <a href="#biographie" class="btn btn-secondary">Me Connaitre</a>
-                    <div class="cv-download">
-                     <a href="assets/cv-loucman-machababy.pdf" download class="btn btn-download">Télécharger mon CV</a>
+    <!-- Menu principal -->
+    <div class="main-menu">
+        <div class="menu-sidebar">
+            <div class="menu-header">
+                <h1 class="menu-title">Portfolio Thème "FUT"</h1>
+                <h2 class="menu-subtitle">Édition Développeur Full-Stack</h2>
+            </div>
+            <div class="menu-options">
+                <div class="menu-option selected" data-section="projects">Projets</div>
+                <div class="menu-option" data-section="about">À propos</div>
+                <div class="menu-option" data-section="contact">Contact</div>
+            </div>
+        </div>
+        <div class="menu-card">
+            <div class="player-card">
+                <div class="player-card-bg"></div>
+                <div class="card-header">
+                    <div class="rating-position">
+                        <div class="rating">85</div>
+                        <div class="position">DEV</div>
+                    </div>
+                    <div class="card-badge">
+                        <span>JS</span>
+                    </div>
+                </div>
+                <div class="card-image">
+                    <img src="images/loucman-machababy.jpg" alt="Loucman MACHABABY" class="player-image">
+                </div>
+                <div class="card-name">Loucman MACHABABY</div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-name">HTML</span>
+                        <span class="stat-value">95</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-name">CSS</span>
+                        <span class="stat-value">90</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-name">JS</span>
+                        <span class="stat-value">85</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-name">PHP</span>
+                        <span class="stat-value">86</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-name">SQL</span>
+                        <span class="stat-value">88</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-name">REACT</span>
+                        <span class="stat-value">75</span>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section id="projets" class="container section">
-            <h2>Mes Projets</h2>
-            <div class="grid">
-                <div class="projet-card">
-                    <div class="icon">🎧</div>
-                    <h3>My Spotify</h3>
-                    <p>Recréer un site de musique comme Spotify </p>
-                    <a href="spotify-detail.html" class="btn details-btn">Détails du Projet</a>
-                </div>
-                <div class="projet-card">
-                    <div class="icon"> 🌐</div>
-                    <h3>My Twitter</h3>
-                    <p>Créer un site de rencontre avec la gestion d'une base de donnée</p>
-                    <a href="twitter-detail.html" class="btn details-btn">Détails du Projet</a>
-                </div>
-                <div class="projet-card">
-                    <div class="icon">❤️</div>
-                    <h3>My Meetic</h3>
-                    <p>Créer un site de rencontre avec la gestion d'une base de donnée</p>
-                    <a href="meetic-detail.html" button class="btn details-btn">Détails du Projet</a>
-                </div>
+        </div>
+    </div>
+    
+    <!-- Section Projets -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" onclick="backToMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Retour
+                </button>
+                <h2 class="section-title">Mes Projets</h2>
             </div>
-        </section>
-
-        <section id="competences" class="container section">
-            <h2>Compétences Techniques</h2>
-            <div class="skills-grid">
-                <div class="skill">
-                    <span>HTML</span>
-                    <div class="progress-bar"><div class="progress" style="width: 100%"></div></div>
-                </div>
-                <div class="skill">
-                    <span>CSS</span>
-                    <div class="progress-bar"><div class="progress" style="width: 95%"></div></div>
-                </div>
-                <div class="skill">
-                    <span>JavaScript</span>
-                    <div class="progress-bar"><div class="progress" style="width: 65%"></div></div>
-                </div>
-                <div class="skill">
-                    <span>React</span>
-                    <div class="progress-bar"><div class="progress" style="width: 45%"></div></div>
-                </div>
-                <div class="skill">
-                    <span>SQL</span>
-                    <div class="progress-bar"><div class="progress" style="width: 90%"></div></div>
-                </div>
-                <div class="skill">
-                    <span>PHP</span>
-                    <div class="progress-bar"><div class="progress" style="width: 75%"></div></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="biographie" class="container section">
-            <h2>A PROPOS DE MOI</h2>
-            <div class="bio-content">
-                <div class="bio-text">
-                    <p>Passionné par le développement depuis toujours, j'ai entrepris une reconversion dans le web pour donner vie à mes projets. Mon rêve ? Créer et développer des applications innovante. Aujourd'hui en formation Développeur Full-Stack, je m'épanouis pleinement dans ce domaine.</p>
+          <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">MySpotify</h3>
+                            <p class="project-description">Création d'un site avec les mêmes fonctionnalités que l'application Spotify</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">NextJS</span>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <p><strong>Actuellement en recherche d'alternance pour septembre 2025</strong>, je vise à terme des projets internationaux innovants. Ma motivation : résoudre des problèmes complexes et voir mes créations prendre vie.</p>
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">MyTwitter</h3>
+                            <p class="project-description">Création d'un réseau social avec les mêmes fonctionnalités que Twitter</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">SCSS</span>
+                                <span class="tech-tag">MySQL</span>
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">JS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">WaterPlomberie.pro</h3>
+                            <p class="project-description">Système de réservation en ligne permettant aux clients de sélectionner facilement le type d'intervention</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">JS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">MyMeetic</h3>
+                            <p class="project-description">Site de rencontre avec création d'une base de données</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">MySQL</span>
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">JS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">MyCinema</h3>
+                            <p class="project-description">Site avec gestion d'une base de données cinéma</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">MySQL</span>
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">JS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">Maquette responsive</h3>
+                            <p class="project-description">Site basé sur une maquette et rendu responsive</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">JS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">Ekitike Stats</h3>
+                            <p class="project-description">Site avec tableau de statistiques pour le compte fan Twitter de Hugo EKITIKE</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">JS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">CSS générator</h3>
+                            <p class="project-description">Générateur de sprite CSS</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">PHP</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">Puissance 4</h3>
+                            <p class="project-description">Jeu de Puissance 4 développé en JavaScript avec une interface utilisateur interactive</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">Morpion</h3>
+                            <p class="project-description">Jeu de Morpion (Tic-Tac-Toe) implémenté avec des fonctionnalités de jeu contre l'ordinateur</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- Option photo -->
-                <div class="bio-image">
-                    <img src="./images/PP.jpg" alt="Loucman MACHABABY">
-                </div> 
+    </section>
+    
+    <!-- Section À propos -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" onclick="backToMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Retour
+                </button>
+                <h2 class="section-title">À propos de moi</h2>
             </div>
-        </section>
-
-        <section id="contact" class="container section">
-            <h2>Contactez-moi</h2>
-            <div class="contact-form-container">
-                <form 
-                    action="https://formspree.io/f/mqapdgvn" 
-                    method="POST"
-                    class="contact-form"
-                >
-                    <div class="form-group">
-                        <input 
-                            type="text" 
-                            name="name" 
-                            placeholder="Nom" 
-                            class="input" 
-                            required
-                        >
+            <div class="profile-content">
+                <div class="profile-card">
+                    <div class="player-card">
+                        <div class="player-card-bg"></div>
+                        <div class="card-header">
+                            <div class="rating-position">
+                                <div class="rating">85</div>
+                                <div class="position">DEV</div>
+                            </div>
+                            <div class="card-badge">
+                                <span>JS</span>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img src="images/loucman-machababy.jpg" alt="Loucman MACHABABY" class="player-image">
+                        </div>
+                        <div class="card-name">Loucman MACHABABY</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <span class="stat-name">HTML</span>
+                                <span class="stat-value">95</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-name">CSS</span>
+                                <span class="stat-value">90</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-name">JS</span>
+                                <span class="stat-value">85</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-name">PHP</span>
+                                <span class="stat-value">86</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-name">SQL</span>
+                                <span class="stat-value">88</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-name">REACT</span>
+                                <span class="stat-value">75</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input 
-                            type="email" 
-                            name="email" 
-                            placeholder="Email" 
-                            class="input" 
-                            required
-                        >
+                </div>
+                <div class="profile-info">
+                    <h3 class="info-title">Profil Professionnel</h3>
+                    <p class="info-text">Après une expérience en BTS management commercial opérationnel, j'ai choisi de me réorienter vers l'informatique, un secteur d'avenir aligné avec mes ambitions : travailler en ayant le sentiment d'être passionné, flexible et sur des projets épanouissants.</p>
+                    <p class="info-text">Actuellement en formation à Epitech Lyon comme Intégrateur/développeur web (2024-2026), je suis à la recherche d'une alternance pour mettre en pratique mes compétences et développer mon expertise.</p>
+                    
+                    <h3 class="info-title">Compétences Techniques</h3>
+                    <div class="skills-grid">
+                        <div class="skill">
+                            <div class="skill-header">
+                                <span class="skill-name">HTML</span>
+                                <span class="skill-value">100%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill">
+                            <div class="skill-header">
+                                <span class="skill-name">CSS</span>
+                                <span class="skill-value">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill">
+                            <div class="skill-header">
+                                <span class="skill-name">JavaScript</span>
+                                <span class="skill-value">65%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill">
+                            <div class="skill-header">
+                                <span class="skill-name">PHP</span>
+                                <span class="skill-value">86%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 86%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill">
+                            <div class="skill-header">
+                                <span class="skill-name">SQL</span>
+                                <span class="skill-value">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill">
+                            <div class="skill-header">
+                                <span class="skill-name">React</span>
+                                <span class="skill-value">45%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 45%"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <textarea 
-                            name="message" 
-                            placeholder="Votre message" 
-                            class="input" 
-                            rows="5" 
-                            required
-                        ></textarea>
+                    
+                    <h3 class="experience-title">Expériences Professionnelles</h3>
+                    <div class="experience-item">
+                        <div class="experience-role">Équipier polyvalent</div>
+                        <div class="experience-company">
+                            <span>BURGER KING | Annecy, France</span>
+                            <span class="experience-dates">15/09/2023 - 7/10/2024</span>
+                        </div>
+                        <div class="experience-details">
+                            <ul>
+                                <li>Préparation des sandwichs</li>
+                                <li>Préparation des commandes uber eats</li>
+                            </ul>
+                        </div>
                     </div>
-                    <input type="hidden" name="_subject" value="Nouveau message depuis votre portfolio">
-                    <button type="submit" class="btn">Envoyer</button>
-                </form>
+                    
+                    <div class="experience-item">
+                        <div class="experience-role">Hôte de caisse polyvalent</div>
+                        <div class="experience-company">
+                            <span>INTERMARCHÉ | Annecy, France</span>
+                            <span class="experience-dates">05/06/2023 - 31/08/2023</span>
+                        </div>
+                        <div class="experience-details">
+                            <ul>
+                                <li>Accueil et encaissement des clients</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="experience-item">
+                        <div class="experience-role">Manager</div>
+                        <div class="experience-company">
+                            <span>KFC | Seynod, France</span>
+                            <span class="experience-dates">15/09/2021 - 01/06/2023</span>
+                        </div>
+                        <div class="experience-details">
+                            <ul>
+                                <li>Management du planning</li>
+                                <li>Placement des équipiers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="experience-item">
+                        <div class="experience-role">Agent de nettoyage</div>
+                        <div class="experience-company">
+                            <span>Mairie d'Annecy | Annecy, France</span>
+                            <span class="experience-dates">26/06/2021 - 31/08/2021</span>
+                        </div>
+                        <div class="experience-details">
+                            <ul>
+                                <li>Nettoyage des salles de classe</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-        
-        </section>
-        
+        </div>
+    </section>
+    
+    <!-- Section Contact -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-header">
+                <button class="back-button" onclick="backToMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Retour
+                </button>
+                <h2 class="section-title">Contact</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3 class="contact-title">Mes coordonnées</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-label">Téléphone</div>
+                            <div class="contact-value">+33 6 27 09 77 24</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">machababyloucman@gmail.com</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-label">Localisation</div>
+                            <div class="contact-value">Lyon / Annecy</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-label">Âge</div>
+                            <div class="contact-value">21 ans (11/09/2003)</div>
+                        </div>
+                    </div>
+                    <h3 class="contact-title" style="margin-top: 2rem;">Centres d'intérêt</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-value">Football et stadium tour</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10m-6 10V4M6 20v-6"></path></svg>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-value">Sport collectif et individuel</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-value">Passionné par le rap français</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form cv-download">
+                    <h3 class="contact-title">Télécharger mon CV</h3>
+                    <div class="cv-description">
+                        <p class="info-text">Vous souhaitez en savoir plus sur mon parcours et mes compétences ? Téléchargez mon CV détaillé pour une vue d'ensemble complète de mon profil professionnel.</p>
+                    </div>
+                    <div class="cv-download-options">
+                        <a href="./cv/cv-loucman-machababy.pdf" download class="form-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Télécharger CV (PDF)
+                        </a>
+                    </div>
+                </div>
+            </div>
+    </section>
 
-    <footer>
-        <p>© 2025 Portfolio Loucman MACHABABY - Tous droits réservés</p>
-    </footer>
-
-    <script src="js/script.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
-
-      
