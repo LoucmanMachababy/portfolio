@@ -486,6 +486,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Précharger la photo si nécessaire
   const playerImage = new Image();
   playerImage.src = 'images/loucman-machababy.jpg';
+<<<<<<< HEAD
 });
 
 // Modification pour ajouter les redirections vers les pages de détail des projets
@@ -536,3 +537,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 3200);
 });
 
+=======
+});
+>>>>>>> 9fb19aa65e28c692928e7bc4fd8e1d7517f7a292
