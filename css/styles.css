@@ -2768,3 +2768,421 @@ a {
 .form-button:hover {
   background-color: var(--primary-dark);
 }
+
+/* Bouton audio */
+.audio-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.audio-toggle:hover {
+  transform: scale(1.1);
+  background-color: var(--primary-dark);
+}
+
+.audio-toggle svg {
+  color: black;
+  width: 20px;
+  height: 20px;
+}
+
+/* Styles épiques supplémentaires pour l'expérience FIFA Ultimate Team */
+
+/* Animation de pack opening */
+.pack-open-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary);
+    color: black;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 900;
+    text-transform: uppercase;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.pack-open-btn:hover {
+    transform: translateX(-50%) scale(1.1) rotate(5deg);
+    background-color: var(--primary-dark);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+/* Effets de transition de chargement style stade */
+.loading-stadium-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.stadium-lights {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        0deg, 
+        rgba(250, 204, 21, 0.1) 0%, 
+        rgba(250, 204, 21, 0.3) 5%, 
+        transparent 5%, 
+        transparent 10%
+    );
+    animation: stadium-light-sweep 5s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes stadium-light-sweep {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-players {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    opacity: 0.3;
+}
+
+.loading-players .player {
+    width: 50px;
+    height: 100px;
+    background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+    transform: perspective(500px) rotateX(60deg);
+    animation: player-move 3s infinite alternate;
+}
+
+.loading-players .player-1 { animation-delay: -1s; }
+.loading-players .player-2 { animation-delay: -2s; }
+.loading-players .player-3 { animation-delay: -3s; }
+
+@keyframes player-move {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(-50px); }
+}
+
+/* Effets de survol épiques pour les cartes de projet */
+.project-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at center, 
+        rgba(250, 204, 21, 0.3) 0%, 
+        transparent 70%
+    );
+    transform: rotate(0deg);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+    transform: rotate(180deg);
+}
+
+.project-card::after {
+    content: '';
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    transition: bottom 0.3s ease;
+}
+
+.project-card:hover::after {
+    bottom: 0;
+}
+
+/* Animation de compétences style arbre de progression */
+.skills-cards {
+    position: relative;
+}
+
+.skill-card {
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: center;
+}
+
+.skill-card:hover {
+    transform: scale(1.1) rotate(5deg);
+    z-index: 10;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+/* Effet de scintillement sur la carte du joueur */
+.player-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255,255,255,0.2), 
+        transparent
+    );
+    transform: rotate(-45deg);
+    animation: shine 3s infinite linear;
+    opacity: 0;
+}
+
+@keyframes shine {
+    0% { 
+        transform: rotate(-45deg) translateX(-100%);
+        opacity: 0;
+    }
+    50% { 
+        transform: rotate(-45deg) translateX(0);
+        opacity: 0.5;
+    }
+    100% { 
+        transform: rotate(-45deg) translateX(100%);
+        opacity: 0;
+    }
+}
+
+.player-card:hover::after {
+    opacity: 1;
+}
+
+/* Styles de Pack Opening FIFA Ultimate Team */
+.fut-pack-opening-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.5s ease;
+  pointer-events: none;
+}
+
+.fut-pack-opening-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.fut-stadium-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #1e3a8a, #000000);
+  filter: blur(150px);
+  opacity: 0.5;
+}
+
+.fut-pack-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.8);
+  transition: all 0.5s ease;
+}
+
+.fut-pack-opening-overlay.active .fut-pack-container {
+  transform: scale(1);
+}
+
+.fut-pack {
+  width: 300px;
+  height: 400px;
+  background: linear-gradient(135deg, #facc15, #ca8a04);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  transition: all 0.5s ease;
+}
+
+.fut-pack.opening {
+  transform: rotateY(180deg) scale(1.2);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+}
+
+.pack-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #facc15, #ca8a04);
+  border-radius: 15px;
+}
+
+.pack-rating {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.pack-player-preview {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 50%;
+  border: 5px solid white;
+  object-fit: cover;
+}
+
+.epic-reveal-text {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 20px;
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.5);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.fut-pack-opening-overlay.active .epic-reveal-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  border-radius: 50%;
+  animation: fall 3s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes fall {
+  to {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .fut-pack {
+      width: 250px;
+      height: 350px;
+  }
+}
+
+/* Styles pour les animations de révélation */
+@keyframes slide-in-left {
+  from {
+      opacity: 0;
+      transform: translateX(-50px);
+  }
+  to {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+      opacity: 0;
+      transform: translateX(50px);
+  }
+  to {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+      opacity: 0;
+      transform: translateY(50px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes zoom-in {
+  from {
+      opacity: 0;
+      transform: scale(0.9);
+  }
+  to {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+
+@keyframes rotate-in {
+  from {
+      opacity: 0;
+      transform: rotate(-10deg);
+  }
+  to {
+      opacity: 1;
+      transform: rotate(0);
+  }
+}
