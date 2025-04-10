@@ -1240,4 +1240,147 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdvancedHoverEffects();
 });
 
+function initFullscreenImageViewer() {
+  // Sélectionner toutes les images dans les projets
+  const projectImages = document.querySelectorAll(
+      '.project-showcase img, ' + 
+      '.project-image-placeholder img, ' + 
+      '.project-content-detail img'
+  );
+
+  // Créer l'overlay pour la vue en plein écran
+  const createFullscreenOverlay = (imageSrc) => {
+      // Supprimer les overlays existants
+      const existingOverlay = document.querySelector('.fullscreen-image-overlay');
+      if (existingOverlay) {
+          existingOverlay.remove();
+      }
+
+      // Créer le nouvel overlay
+      const overlay = document.createElement('div');
+      overlay.classList.add('fullscreen-image-overlay');
+      overlay.innerHTML = `
+          <div class="fullscreen-image-container">
+              <img src="${imageSrc}" alt="Image en plein écran" class="fullscreen-image">
+              <button class="fullscreen-close-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+              </button>
+          </div>
+      `;
+
+      // Ajouter des styles dynamiques
+      const styleSheet = document.createElement('style');
+      styleSheet.textContent = `
+          .fullscreen-image-overlay {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(0, 0, 0, 0.9);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              z-index: 9999;
+              animation: fadeIn 0.3s ease;
+              cursor: zoom-out;
+          }
+
+          .fullscreen-image-container {
+              position: relative;
+              max-width: 90%;
+              max-height: 90%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+
+          .fullscreen-image {
+              max-width: 100%;
+              max-height: 100%;
+              object-fit: contain;
+              animation: zoomIn 0.4s ease;
+              box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+              border-radius: 10px;
+          }
+
+          .fullscreen-close-btn {
+              position: absolute;
+              top: -40px;
+              right: 0;
+              background: rgba(255,255,255,0.2);
+              color: white;
+              border: none;
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              cursor: pointer;
+              transition: all 0.3s ease;
+          }
+
+          .fullscreen-close-btn:hover {
+              background: rgba(255,255,255,0.4);
+              transform: rotate(90deg);
+          }
+
+          @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+          }
+
+          @keyframes zoomIn {
+              from { 
+                  opacity: 0;
+                  transform: scale(0.8);
+              }
+              to { 
+                  opacity: 1;
+                  transform: scale(1);
+              }
+          }
+      `;
+      document.head.appendChild(styleSheet);
+
+      // Ajouter l'overlay au body
+      document.body.appendChild(overlay);
+
+      // Fermer l'overlay au clic
+      overlay.addEventListener('click', (e) => {
+          if (e.target === overlay || e.target.closest('.fullscreen-close-btn')) {
+              overlay.style.animation = 'fadeOut 0.3s ease';
+              setTimeout(() => {
+                  overlay.remove();
+              }, 290);
+          }
+      });
+
+      // Ajouter une animation de fadeOut
+      const fadeOutStyle = document.createElement('style');
+      fadeOutStyle.textContent = `
+          @keyframes fadeOut {
+              from { opacity: 1; }
+              to { opacity: 0; }
+          }
+      `;
+      document.head.appendChild(fadeOutStyle);
+  };
+
+  // Ajouter des écouteurs d'événements aux images
+  projectImages.forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => {
+          createFullscreenOverlay(img.src);
+      });
+  });
+}
+
+// Initialiser le viewer d'images en plein écran
+document.addEventListener('DOMContentLoaded', initFullscreenImageViewer);
+
 // FIN DES NOUVEAUX EFFETS
