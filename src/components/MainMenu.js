@@ -43,8 +43,8 @@ const MainMenu = ({ onSelectSection, showPenaltyButton }) => {
             <div className="rating" style={{ fontSize: '2.5rem', color: '#ffd700', textShadow: '0 0 10px #ffd700' }}>90</div>
             <div className="position" style={{ fontSize: '1.1rem', fontWeight: 700, background: '#ffd700', color: '#222', borderRadius: 8, padding: '0.2rem 0.8rem', marginTop: 4 }}>DEV</div>
           </div>
-          <div className="card-badge" style={{ background: 'linear-gradient(45deg, #ef4444, #dc2626)', color: '#fff', borderRadius: 10, padding: '0.4rem 1.1rem', fontWeight: 700, fontSize: '1rem', boxShadow: '0 2px 8px #ef444488' }}>
-            W@C
+          <div className="card-badge" style={{ background: 'linear-gradient(45deg,rgb(186, 220, 230),rgb(22, 80, 156))', color: '#fff', borderRadius: 10, padding: '0.4rem 1.1rem', fontWeight: 700, fontSize: '1rem', boxShadow: '0 2px 8pxrgba(255, 255, 255, 0.53)' }}>
+            FC EPITECH
           </div>
         </div>
         <div className="card-image" style={{ textAlign: 'center', marginBottom: 10, position: 'relative' }}>
