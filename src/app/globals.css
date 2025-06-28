@@ -830,6 +830,8 @@ a, button, .menu-option, .project-card {
   transition: all 0.3s ease;
   border: 2px solid rgba(250, 204, 21, 0.2);
   animation: slideInUp 0.6s ease-out;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card::before {
@@ -856,6 +858,9 @@ a, button, .menu-option, .project-card {
 }
 
 .project-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   position: relative;
   z-index: 2;
 }
@@ -952,9 +957,10 @@ a, button, .menu-option, .project-card {
 }
 
 .project-links {
+  margin-top: auto;
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .project-link {
@@ -1821,4 +1827,19 @@ button, a, .menu-option, .project-card, .player-card, .skill-card, input, textar
 /* Curseur normal pour les éléments de texte */
 p, h1, h2, h3, h4, h5, h6, span, div, li, ul, ol {
   cursor: none !important;
+}
+
+/* Styles pour les vidéos de démonstration des projets */
+.project-demo-video {
+  width: 100%;
+  max-height: 300px;
+  margin-top: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #000;
+}
+
+.project-demo-video:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #0070f3;
 }

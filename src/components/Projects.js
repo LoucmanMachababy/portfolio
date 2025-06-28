@@ -142,6 +142,20 @@ const projects = [
     github: 'https://github.com/LoucmanMachababy/Spotify',
     image: '/images/spotify.png',
   },
+  {
+    name: 'MySnapchat',
+    description: 'Clone de Snapchat avec fonctionnalités de base : envoi de photos, filtres et gestion des amis.',
+    github: 'https://github.com/LoucmanMachababy/MySnapchat',
+    image: null,
+    demoVideo: '/video/Demo_my_snapchat.mp4',
+  },
+  {
+    name: 'MyQuizz',
+    description: 'Application de quiz interactive avec différentes catégories et système de score.',
+    github: 'https://github.com/LoucmanMachababy/MyQuizz',
+    image: null,
+    demoVideo: '/video/Demy_MyQuizz.mp4',
+  },
   // Ajoute ici d'autres projets si besoin
 ];
 
@@ -154,6 +168,17 @@ const Projects = () => {
           <div className="project-card" key={project.name}>
             {project.image && (
               <img src={project.image} alt={project.name} className="project-image" />
+            )}
+            {project.demoVideo && (
+              <video 
+                className="project-video" 
+                controls
+                preload="none"
+                poster={project.image || '/images/maquette.png'}
+              >
+                <source src={project.demoVideo} type="video/mp4" />
+                Votre navigateur ne supporte pas la lecture de vidéos.
+              </video>
             )}
             <div className="project-content">
               <h3 className="project-name">{project.name}</h3>

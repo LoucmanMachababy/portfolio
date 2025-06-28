@@ -62,6 +62,28 @@ const projectsData = [
         tech: ["C", "Système"],
         metrics: ["⚙️ Système", "📦 Compression"],
         github: "https://github.com/LoucmanMachababy/MyTar"
+    },
+    {
+        featured: true,
+        title: "MyQuizz",
+        description: "Application web moderne de quiz développée avec Symfony 7.2 et PHP 8.2+. Plateforme interactive permettant de créer et participer à des quiz.",
+        features: ["Création de quiz", "Système d'authentification", "Interface interactive"],
+        challenges: "Gestion des sessions de quiz, système de score en temps réel, interface utilisateur moderne",
+        tech: ["PHP", "Symfony", "Twig", "JavaScript"],
+        metrics: ["🎯 Quiz interactif", "👥 Multi-utilisateurs"],
+        github: "https://github.com/LoucmanMachababy/MyQuizz",
+        demoVideo: "/video/Demy_MyQuizz.mp4"
+    },
+    {
+        featured: true,
+        title: "MySnapchat",
+        description: "Clone de Snapchat développé avec TypeScript et React Native, intégrant les fonctionnalités essentielles de l'application originale.",
+        features: ["Envoi de photos", "Filtres", "Gestion des amis"],
+        challenges: "Intégration de la caméra, gestion des filtres en temps réel, authentification sécurisée",
+        tech: ["TypeScript", "React Native", "API REST"],
+        metrics: ["📱 Application mobile", "📸 Filtres photos"],
+        github: "https://github.com/LoucmanMachababy/my_snapchat",
+        demoVideo: "/video/Demo_my_snapchat.mp4"
     }
 ];
 
@@ -97,6 +119,16 @@ const ProjectsSection = ({ onBack }) => {
                 <div className="project-links">
                   {project.github && <a href={project.github} target="_blank" className="project-link">GitHub</a>}
                   {project.demo && <a href={project.demo} target="_blank" className="project-link demo-link">Demo Live</a>}
+                  {project.demoVideo && (
+                    <video 
+                      className="project-demo-video" 
+                      controls
+                      preload="none"
+                    >
+                      <source src={project.demoVideo} type="video/mp4" />
+                      Votre navigateur ne supporte pas la lecture de vidéos.
+                    </video>
+                  )}
                   {project.detailsId && <a href="#" className="project-link details-link" data-project={project.detailsId}>Détails</a>}
                 </div>
               </div>
