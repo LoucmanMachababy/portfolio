@@ -84,7 +84,18 @@ const projectsData = [
         metrics: ["📱 Application mobile", "📸 Filtres photos"],
         github: "https://github.com/LoucmanMachababy/my_snapchat",
         demoVideo: "/video/Demo_my_snapchat.mp4"
-    }
+    },
+    {
+        featured: true,
+        title: "Salomon Refund Tool",
+        description: "Outil de gestion des remboursements développé pour Salomon, permettant de traiter et suivre les demandes de remboursement de manière efficace.",
+        features: ["Interface moderne", "Gestion des remboursements", "Suivi en temps réel"],
+        challenges: "Développement d'une interface intuitive, gestion sécurisée des données financières, intégration avec les systèmes existants",
+        tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+        metrics: ["💼 Projet professionnel", "💰 Gestion financière"],
+        github: "https://github.com/LoucmanMachababy/Refund-tool",
+        demo: "https://salomon-refund-pnoldohes-loucmans-projects.vercel.app/new",
+    },
 ];
 
 const ProjectsSection = ({ onBack }) => {
