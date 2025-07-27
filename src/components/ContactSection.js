@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import emailjs from 'emailjs-com';
 import ConfettiEffect from './ConfettiEffect';
 import Image from 'next/image';
+import ThemeToggle from './ThemeToggle';
 
 const ContactSection = ({ onBack }) => {
   const [sending, setSending] = useState(false);
@@ -45,6 +46,7 @@ const ContactSection = ({ onBack }) => {
 
   return (
     <section className="contact-section">
+      <ThemeToggle />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -56,60 +58,131 @@ const ContactSection = ({ onBack }) => {
                 Retour au menu
             </button>
             <h2 className="section-title">Contactez-moi</h2>
+            <p className="section-subtitle">Développeur web freelance à Annecy & Lyon - Devis gratuit sous 24h</p>
+        </div>
+
+        <div className="contact-cta-section">
+          <h3>Prêt à démarrer votre projet ?</h3>
+          <div className="main-cta-buttons">
+            <a
+              href="mailto:machababyloucman@gmail.com?subject=Demande de devis - Développement web&body=Bonjour Loucman,%0D%0A%0D%0AJe souhaiterais obtenir un devis pour :%0D%0A%0D%0A- Type de projet :%0D%0A- Budget approximatif :%0D%0A- Délai souhaité :%0D%0A- Autres informations :%0D%0A%0D%0AMerci !"
+              className="cta-primary large"
+            >
+              📧 Demander un devis gratuit
+            </a>
+            <a
+              href="https://calendly.com/machababyloucman/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-secondary large"
+            >
+              📅 Prendre rendez-vous
+            </a>
+          </div>
         </div>
 
         <div className="contact-container">
           <div className="contact-info">
-            <h3 className="contact-title">Mes coordonnées</h3>
-            <div className="contact-item">
-              <div className="contact-label">Téléphone</div>
-              <div className="contact-value">+33 6 27 09 77 24</div>
+            <h3 className="contact-title">Informations de contact</h3>
+
+            <div className="nap-info">
+              <h4>Loucman Machababy</h4>
+              <p>Développeur web freelance</p>
             </div>
+
             <div className="contact-item">
-              <div className="contact-label">Email</div>
+              <div className="contact-label">📧 Email professionnel</div>
               <a href="mailto:machababyloucman@gmail.com" className="contact-value">machababyloucman@gmail.com</a>
             </div>
+
             <div className="contact-item">
-              <div className="contact-label">LinkedIn</div>
+              <div className="contact-label">📞 Téléphone</div>
+              <a href="tel:+33627097724" className="contact-value">06 27 09 77 24</a>
+            </div>
+
+            <div className="contact-item">
+              <div className="contact-label">📍 Zones d'intervention</div>
+              <div className="contact-value">
+                <strong>Annecy et environs</strong><br/>
+                <strong>Lyon et environs</strong><br/>
+                <em>Déplacements possibles dans toute la région</em>
+              </div>
+            </div>
+
+            <div className="contact-item">
+              <div className="contact-label">🕒 Disponibilité</div>
+              <div className="contact-value">
+                Lundi - Vendredi : 9h - 18h<br/>
+                Réponse sous 24h garantie
+              </div>
+            </div>
+
+            <div className="contact-item">
+              <div className="contact-label">💼 LinkedIn</div>
               <a href="https://www.linkedin.com/in/loucman-machababy/" target="_blank" rel="noopener noreferrer" className="contact-value">linkedin.com/in/loucman-machababy</a>
             </div>
-            <div className="contact-item">
-              <div className="contact-label">GitHub</div>
-              <a href="https://github.com/LoucmanMachababy" target="_blank" rel="noopener noreferrer" className="contact-value">github.com/LoucmanMachababy</a>
-            </div>
-            <div className="contact-item">
-              <div className="contact-label">Localisation</div>
-              <div className="contact-value">Lyon / Annecy</div>
-            </div>
-            <div className="contact-item">
-              <div className="contact-label">Âge</div>
-              <div className="contact-value">21 ans (11/09/2003)</div>
-            </div>
-            <div style={{ marginTop: 30, textAlign: 'center' }}>
-              <h4 style={{ color: '#ffd700', fontWeight: 700, marginBottom: 8 }}>Ajoute-moi sur LinkedIn</h4>
-              <a href="https://www.linkedin.com/in/loucman-machababy/" target="_blank" rel="noopener noreferrer">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://www.linkedin.com/in/loucman-machababy/" alt="QR Code LinkedIn" width={120} height={120} style={{ borderRadius: 16, boxShadow: '0 2px 12px #ffd70088', background: '#fff' }} />
-              </a>
-              <div style={{ color: '#fff', fontSize: 13, marginTop: 4, opacity: 0.7 }}>Scanne-moi !</div>
+
+            <div className="specialties">
+              <h4>Spécialités</h4>
+              <ul>
+                <li>✅ Sites vitrines et e-commerce</li>
+                <li>✅ Applications React/Next.js</li>
+                <li>✅ Refonte et modernisation</li>
+                <li>✅ Maintenance et support</li>
+                <li>✅ SEO technique</li>
+              </ul>
             </div>
           </div>
           <div className="contact-form">
-            <h3 className="contact-title">Envoyer un message</h3>
+            <h3 className="contact-title">Parlez-moi de votre projet</h3>
+            <p className="form-description">Décrivez-moi votre projet et je vous recontacte rapidement avec un devis personnalisé.</p>
+
             <form id="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="name" className="form-label">Nom</label>
-                <input type="text" id="name" name="name" className="form-input" required />
+                <label htmlFor="name" className="form-label">Nom / Entreprise *</label>
+                <input type="text" id="name" name="name" className="form-input" required placeholder="Votre nom ou nom d'entreprise" />
               </div>
+
               <div className="form-group">
-                <label htmlFor="email" className="form-label">Email</label>
-                <input type="email" id="email" name="email" className="form-input" required />
+                <label htmlFor="email" className="form-label">Email *</label>
+                <input type="email" id="email" name="email" className="form-input" required placeholder="votre@email.com" />
               </div>
+
               <div className="form-group">
-                <label htmlFor="message" className="form-label">Message</label>
-                <textarea id="message" name="message" className="form-textarea" required></textarea>
+                <label htmlFor="phone" className="form-label">Téléphone</label>
+                <input type="tel" id="phone" name="phone" className="form-input" placeholder="06 XX XX XX XX" />
               </div>
-              <button type="submit" className="form-button" disabled={sending}>{sending ? 'Envoi en cours...' : 'Envoyer'}</button>
+
+              <div className="form-group">
+                <label htmlFor="project-type" className="form-label">Type de projet</label>
+                <select id="project-type" name="project-type" className="form-input">
+                  <option value="">Sélectionnez un type de projet</option>
+                  <option value="site-vitrine">Site vitrine</option>
+                  <option value="e-commerce">Site e-commerce</option>
+                  <option value="application">Application web</option>
+                  <option value="refonte">Refonte de site existant</option>
+                  <option value="maintenance">Maintenance / Support</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="message" className="form-label">Description du projet *</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  className="form-textarea"
+                  required
+                  placeholder="Décrivez votre projet, vos objectifs, votre budget approximatif et vos délais..."
+                  rows="6"
+                ></textarea>
+              </div>
+
+              <button type="submit" className="form-button" disabled={sending}>
+                {sending ? 'Envoi en cours...' : '📧 Envoyer ma demande'}
+              </button>
             </form>
+
             {notification && (
               <div className={`notification notification-${notification.type}`}>{notification.text}</div>
             )}
@@ -117,8 +190,35 @@ const ContactSection = ({ onBack }) => {
           </div>
         </div>
 
+        <div className="guarantees-section">
+          <h3>Mes engagements</h3>
+          <div className="guarantees-grid">
+            <div className="guarantee-item">
+              <div className="guarantee-icon">⚡</div>
+              <h4>Réactivité</h4>
+              <p>Réponse sous 24h garantie</p>
+            </div>
+            <div className="guarantee-item">
+              <div className="guarantee-icon">💰</div>
+              <h4>Devis gratuit</h4>
+              <p>Estimation détaillée sans engagement</p>
+            </div>
+            <div className="guarantee-item">
+              <div className="guarantee-icon">🎯</div>
+              <h4>Suivi personnalisé</h4>
+              <p>Accompagnement tout au long du projet</p>
+            </div>
+            <div className="guarantee-item">
+              <div className="guarantee-icon">🔧</div>
+              <h4>Support inclus</h4>
+              <p>Maintenance et corrections post-livraison</p>
+            </div>
+          </div>
+        </div>
+
         <div className="cv-download">
-           <p className="cv-description">Vous pouvez également télécharger mon CV pour plus de détails sur mon parcours.</p>
+           <h3>Mon CV professionnel</h3>
+           <p className="cv-description">Téléchargez mon CV pour découvrir mon parcours et mes compétences techniques détaillées.</p>
            <div className="cv-download-options">
              <button
                className="project-link demo-link"
@@ -131,7 +231,7 @@ const ContactSection = ({ onBack }) => {
                  document.body.removeChild(link);
                }}
              >
-               Télécharger CV (PDF)
+               📄 Télécharger mon CV
              </button>
            </div>
          </div>

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://loucman-machababy.fr/sitemap.xml
+
+# Optimisation pour les moteurs de recherche
+Crawl-delay: 1
