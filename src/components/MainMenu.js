@@ -313,29 +313,43 @@ const MainMenu = ({ onSelectSection, showPenaltyButton }) => {
         <p className="hero-tagline">Je transforme vos idées en sites web qui convertissent</p>
         <p className="hero-location">Full Remote · Sites vitrines, e‑commerce, maintenance</p>
 
-        {/* Navigation principale - remontée */}
-        <div className="main-navigation-hero">
-          <h3 className="nav-title-hero">Découvrez mon expertise</h3>
-          <div className="menu-buttons-hero">
-            <button onClick={() => handleNavigation('services')} className="menu-button-hero ripple-button glow-pulse">
-              <span className="button-icon">🛠️</span>
-              <div className="button-content">
-                <span className="button-title">Services</span>
-                <span className="button-subtitle">Solutions web complètes</span>
+        {/* Section Expertise - NOUVELLE STRUCTURE */}
+        <div className="expertise-section">
+          <h3 className="expertise-title">Découvrez mon expertise</h3>
+          <div className="expertise-grid">
+            <button onClick={() => handleNavigation('services')} className="expertise-card primary">
+              <div className="expertise-icon">🛠️</div>
+              <div className="expertise-content">
+                <h4>Services</h4>
+                <p>Solutions web complètes</p>
+                <span className="expertise-arrow">→</span>
               </div>
             </button>
-            <button onClick={() => handleNavigation('projects')} className="menu-button-hero ripple-button">
-              <span className="button-icon">💼</span>
-              <div className="button-content">
-                <span className="button-title">Projets</span>
-                <span className="button-subtitle">Réalisations récentes</span>
+            
+            <button onClick={() => handleNavigation('projects')} className="expertise-card">
+              <div className="expertise-icon">💼</div>
+              <div className="expertise-content">
+                <h4>Projets</h4>
+                <p>Réalisations récentes</p>
+                <span className="expertise-arrow">→</span>
               </div>
             </button>
-            <button onClick={() => handleNavigation('about')} className="menu-button-hero ripple-button">
-              <span className="button-icon">👨‍💻</span>
-              <div className="button-content">
-                <span className="button-title">À propos</span>
-                <span className="button-subtitle">Mon parcours</span>
+            
+            <button onClick={() => handleNavigation('about')} className="expertise-card">
+              <div className="expertise-icon">👨‍💻</div>
+              <div className="expertise-content">
+                <h4>À propos</h4>
+                <p>Mon parcours</p>
+                <span className="expertise-arrow">→</span>
+              </div>
+            </button>
+            
+            <button onClick={() => handleNavigation('contact')} className="expertise-card">
+              <div className="expertise-icon">📞</div>
+              <div className="expertise-content">
+                <h4>Contact</h4>
+                <p>Parlons de votre projet</p>
+                <span className="expertise-arrow">→</span>
               </div>
             </button>
           </div>
@@ -356,8 +370,6 @@ const MainMenu = ({ onSelectSection, showPenaltyButton }) => {
             <span className="proof-label">Réponse garantie</span>
           </div>
         </div>
-
-
 
         <div className="profile-card">
           <div className="profile-image">
@@ -451,40 +463,7 @@ const MainMenu = ({ onSelectSection, showPenaltyButton }) => {
 
       </div>
 
-      {/* Navigation principale */}
-      <div className="main-navigation">
-        <h3 className="nav-title">Découvrez mon expertise</h3>
-        <div className="menu-buttons">
-          <button onClick={() => handleNavigation('services')} className="menu-button">
-            <span className="button-icon">🛠️</span>
-            <div className="button-content">
-              <span className="button-title">Services</span>
-              <span className="button-subtitle">Solutions web complètes</span>
-            </div>
-          </button>
-          <button onClick={() => handleNavigation('projects')} className="menu-button">
-            <span className="button-icon">💼</span>
-            <div className="button-content">
-              <span className="button-title">Projets</span>
-              <span className="button-subtitle">Réalisations concrètes</span>
-            </div>
-          </button>
-          <button onClick={() => handleNavigation('about')} className="menu-button">
-            <span className="button-icon">👨‍💻</span>
-            <div className="button-content">
-              <span className="button-title">À propos</span>
-              <span className="button-subtitle">Mon parcours</span>
-            </div>
-          </button>
-          <button onClick={() => handleNavigation('contact')} className="menu-button">
-            <span className="button-icon">📞</span>
-            <div className="button-content">
-              <span className="button-title">Contact</span>
-              <span className="button-subtitle">Parlons de votre projet</span>
-            </div>
-          </button>
-        </div>
-      </div>
+
     </main>
   );
 };

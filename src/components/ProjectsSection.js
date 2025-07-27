@@ -38,19 +38,20 @@ const projectsData = [
     },
     {
         featured: true,
-        title: "Salomon Refund Tool",
-        description: "Outil de gestion des remboursements pour l'équipe Salomon",
-        objective: "Simplifier et automatiser le processus de traitement des remboursements",
-        solution: "Interface web moderne avec workflow optimisé et suivi en temps réel",
-        result: "Réduction du temps de traitement et amélioration de la traçabilité",
+        title: "Kyol Poke",
+        description: "Plateforme de commande en ligne pour distributeur de poké bowls",
+        objective: "Créer une solution e-commerce complète pour la vente de poké bowls en ligne",
+        solution: "Développement d'une plateforme moderne avec authentification et paiement sécurisé",
+        result: "Système de commande automatisé avec dashboard admin sur mesure",
         bulletPoints: [
-            "🎯 Objectif : Optimiser le processus de remboursement et réduire les erreurs",
-            "💡 Solution : Interface intuitive avec validation automatique et suivi détaillé",
-            "📈 Résultat : Processus plus fluide, meilleure satisfaction des équipes internes"
+            "🎯 Objectif : Digitaliser la vente de poké bowls avec système de commande en ligne",
+            "💡 Solution : Plateforme complète avec authentification, paiement Stripe et dashboard admin",
+            "📈 Résultat : Interface responsive, déploiement optimisé sur Vercel"
         ],
-        tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
-        github: "https://github.com/LoucmanMachababy/Refund-tool",
-        demo: "https://salomon-refund-pnoldohes-loucmans-projects.vercel.app/new"
+        tech: ["Next.js", "Supabase", "Stripe", "TypeScript"],
+        github: "https://github.com/LoucmanMachababy/kyol-poke",
+        demo: "#",
+        demoText: "En cours de développement"
     },
 ];
 
@@ -91,11 +92,15 @@ const ProjectsSection = ({ onBack }) => {
                       Code source
                     </a>
                   )}
-                  {project.demo && (
+                  {project.demo && project.demo !== "#" ? (
                     <a href={project.demo} target="_blank" rel="noopener noreferrer" className="project-link demo-link">
                       Voir le site
                     </a>
-                  )}
+                  ) : project.demoText ? (
+                    <span className="project-link demo-link disabled">
+                      {project.demoText}
+                    </span>
+                  ) : null}
                 </div>
               </div>
             </div>

@@ -10,21 +10,21 @@ const services = [
     description: "Site web professionnel pour présenter votre activité et attirer de nouveaux clients",
     features: ["Design moderne et responsive", "Optimisation SEO", "Formulaire de contact", "Hébergement inclus"],
     icon: "🌐",
-    price: "À partir de 600€"
+    price: "À partir de 400€"
   },
   {
     title: "Refonte de site web",
     description: "Modernisation de votre site existant pour améliorer performances et conversions",
     features: ["Audit complet", "Nouveau design", "Optimisation vitesse", "Migration sécurisée"],
     icon: "🔄",
-    price: "À partir de 400€"
+    price: "À partir de 300€"
   },
   {
     title: "Site e-commerce",
     description: "Boutique en ligne complète pour vendre vos produits sur internet",
     features: ["Catalogue produits", "Paiement sécurisé", "Gestion commandes", "Tableau de bord"],
     icon: "🛒",
-    price: "À partir de 1200€"
+    price: "À partir de 1000€"
   },
   {
     title: "Maintenance & Support",
