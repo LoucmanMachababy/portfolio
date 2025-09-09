@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -37,9 +38,15 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Brand */}
             <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">L</span>
+              <div className="flex items-center space-x-3">
+                <div className="relative w-10 h-10 rounded-lg overflow-hidden ring-2 ring-primary/20">
+                  <Image
+                    src="/images/loucman-machababy.jpg"
+                    alt="Loucman Machababy"
+                    fill
+                    className="object-cover"
+                    sizes="40px"
+                  />
                 </div>
                 <span className="text-xl font-bold text-foreground font-heading">
                   Loucman Machababy

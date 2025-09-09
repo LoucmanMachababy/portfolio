@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon } from 'lucide-react';
@@ -112,15 +113,22 @@ export function Navbar() {
       <div className="container">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2 group">
             <motion.div
-              className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"
+              className="relative w-8 h-8 rounded-lg overflow-hidden ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all duration-200"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="text-white font-bold text-lg">L</span>
+              <Image
+                src="/images/loucman-machababy.jpg"
+                alt="Loucman Machababy"
+                fill
+                className="object-cover"
+                sizes="32px"
+                priority
+              />
             </motion.div>
-            <span className="text-xl font-bold text-foreground font-heading">
+            <span className="text-xl font-bold text-foreground font-heading group-hover:text-primary transition-colors duration-200">
               Loucman Machababy
             </span>
           </Link>

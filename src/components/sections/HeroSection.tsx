@@ -152,8 +152,15 @@ export function HeroSection() {
                 <div className="space-y-6">
                   {/* Profile */}
                   <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center">
-                      <span className="text-white font-bold text-2xl">L</span>
+                    <div className="relative w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-primary/20">
+                      <Image
+                        src="/images/loucman-machababy.jpg"
+                        alt="Loucman Machababy"
+                        fill
+                        className="object-cover"
+                        sizes="64px"
+                        priority
+                      />
                     </div>
                     <div>
                       <h3 className="text-xl font-semibold text-foreground">

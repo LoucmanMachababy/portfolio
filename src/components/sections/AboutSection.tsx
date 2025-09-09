@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { Code, Palette, Zap, Users } from 'lucide-react';
 
 const features = [
@@ -42,6 +43,18 @@ export function AboutSection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8 }}
         >
+          <div className="flex justify-center mb-8">
+            <div className="relative w-32 h-32 rounded-3xl overflow-hidden ring-4 ring-primary/20 shadow-2xl">
+              <Image
+                src="/images/loucman-machababy.jpg"
+                alt="Loucman Machababy"
+                fill
+                className="object-cover"
+                sizes="128px"
+                priority
+              />
+            </div>
+          </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground font-heading mb-6">
             Pourquoi me choisir ?
           </h2>
