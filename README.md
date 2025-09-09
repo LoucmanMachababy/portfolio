@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Loucman Machababy
 
-## Getting Started
+Portfolio professionnel de Loucman Machababy, développeur web freelance spécialisé en React, Next.js et solutions e-commerce.
 
-First, run the development server:
+## 🚀 Technologies
+
+- **Next.js 15** - Framework React avec App Router
+- **React 18** - Bibliothèque UI moderne
+- **TypeScript** - Typage statique
+- **Tailwind CSS** - Framework CSS utilitaire
+- **Framer Motion** - Animations fluides
+- **React Hook Form** - Gestion des formulaires
+- **Yup** - Validation des données
+
+## 🛠️ Installation
 
 ```bash
+# Cloner le projet
+git clone https://github.com/loucmanmachababy/portfolio-2.git
+
+# Installer les dépendances
+npm install
+
+# Lancer en développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📱 Fonctionnalités
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- ✅ Design responsive et moderne
+- ✅ Thème sombre/clair
+- ✅ Navigation fluide avec scroll
+- ✅ Animations Framer Motion
+- ✅ Formulaire de contact validé
+- ✅ Carousel vidéo pour les projets
+- ✅ SEO optimisé
+- ✅ Performance optimisée
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎨 Sections
 
-## Learn More
+- **Hero** - Présentation et CTA
+- **À propos** - Parcours et compétences
+- **Compétences** - Technologies maîtrisées
+- **Projets** - Carousel vidéo des réalisations
+- **Services** - Offres et tarifs
+- **Contact** - Formulaire et informations
 
-To learn more about Next.js, take a look at the following resources:
+## 📞 Contact
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Email** : machababyloucman@gmail.com
+- **Téléphone** : +33 6 27 09 77 24
+- **Localisation** : Annecy & Lyon, France
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Déploiement
 
-## Deploy on Vercel
+Le site est déployé sur Vercel avec un déploiement automatique à chaque push sur la branche main.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*Développé avec ❤️ par Loucman Machababy*
