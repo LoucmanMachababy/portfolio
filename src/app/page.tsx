@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { SkillsSection } from '@/components/sections/SkillsSection';
+import { BackendSection } from '@/components/sections/BackendSection';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { PricingSection } from '@/components/sections/PricingSection';
 import { ContactSection } from '@/components/sections/ContactSection';
@@ -36,6 +37,7 @@ export default function HomePage() {
       <HeroSection />
       <AboutSection />
       <SkillsSection />
+      <BackendSection />
       <ProjectsSection />
       <PricingSection />
       <ContactSection />

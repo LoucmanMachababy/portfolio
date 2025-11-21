@@ -17,10 +17,10 @@ export function ThemeToggle() {
     <motion.button
       onClick={toggleTheme}
       className={cn(
-        'relative p-2 rounded-lg border border-border bg-card hover:bg-accent transition-colors duration-200',
-        'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+        'relative p-2.5 rounded-xl border border-border/50 bg-background/50 backdrop-blur-md hover:bg-primary/10 hover:border-primary/50 hover:text-primary transition-all duration-300 shadow-sm',
+        'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2'
       )}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.05, rotate: 5 }}
       whileTap={{ scale: 0.95 }}
       aria-label={`Basculer vers le thème ${resolvedTheme === 'light' ? 'sombre' : 'clair'}`}
     >
@@ -28,12 +28,12 @@ export function ThemeToggle() {
         className="relative w-5 h-5"
         initial={false}
         animate={{ rotate: resolvedTheme === 'light' ? 0 : 180 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
       >
         {resolvedTheme === 'light' ? (
-          <Sun size={20} className="text-foreground" />
+          <Sun size={20} className="text-foreground group-hover:text-primary transition-colors" />
         ) : (
-          <Moon size={20} className="text-foreground" />
+          <Moon size={20} className="text-foreground group-hover:text-primary transition-colors" />
         )}
       </motion.div>
     </motion.button>

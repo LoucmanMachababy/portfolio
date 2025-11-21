@@ -4,29 +4,36 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import Image from 'next/image';
-import { Code, Palette, Zap, Users } from 'lucide-react';
+import { Code, Palette, Zap, Server, ArrowUpRight } from 'lucide-react';
 
 const features = [
   {
     icon: Code,
-    title: 'Développement Web',
-    description: 'Création de sites web modernes et performants avec les dernières technologies.',
+    title: 'Développement Frontend',
+    description: 'Création d\'interfaces modernes et réactives avec React, Next.js et TypeScript.',
+    color: 'text-blue-500',
+    bg: 'bg-blue-500/10',
+  },
+  {
+    icon: Server,
+    title: 'Architecture Backend',
+    description: 'APIs robustes et sécurisées avec Node.js, Express et bases de données SQL/NoSQL.',
+    color: 'text-green-500',
+    bg: 'bg-green-500/10',
   },
   {
     icon: Palette,
     title: 'Design UI/UX',
-    description: 'Interfaces utilisateur intuitives et esthétiques pour une expérience optimale.',
+    description: 'Interfaces intuitives et esthétiques centrées sur l\'expérience utilisateur.',
+    color: 'text-purple-500',
+    bg: 'bg-purple-500/10',
   },
   {
     icon: Zap,
     title: 'Performance',
-    description: 'Optimisation des performances pour des sites rapides et efficaces.',
-  },
-  {
-    icon: Users,
-    title: 'Support Client',
-    description: 'Accompagnement personnalisé et formation à l\'utilisation de vos outils.',
+    description: 'Optimisation avancée pour des temps de chargement ultra-rapides et un SEO optimal.',
+    color: 'text-yellow-500',
+    bg: 'bg-yellow-500/10',
   },
 ];
 
@@ -35,80 +42,64 @@ export function AboutSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="about" ref={ref} className="section-padding bg-muted/30">
-      <div className="container">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="flex justify-center mb-8">
-            <div className="relative w-32 h-32 rounded-3xl overflow-hidden ring-4 ring-primary/20 shadow-2xl">
-              <Image
-                src="/images/loucman-machababy.jpg"
-                alt="Loucman Machababy"
-                fill
-                className="object-cover"
-                sizes="128px"
-                priority
-              />
-            </div>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground font-heading mb-6">
-            Pourquoi me choisir ?
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Avec plus de 2 ans d'expérience dans le développement web et mobile, je vous accompagne 
-            dans la création de solutions digitales modernes et performantes.
-          </p>
-        </motion.div>
+    <section id="about" ref={ref} className="section-padding relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-20 pointer-events-none" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container relative z-10">
+        <div className="mb-20 max-w-3xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground font-heading mb-6 leading-tight">
+              Plus qu'un simple <br />
+              <span className="text-gradient">développeur web</span>
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+              Avec une double compétence en <span className="text-foreground font-medium">design</span> et en <span className="text-foreground font-medium">développement</span>,
+              je ne me contente pas d'écrire du code. Je conçois des solutions complètes qui répondent à vos besoins business tout en offrant une expérience utilisateur exceptionnelle.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="p-4 rounded-2xl bg-card border border-border/50 shadow-sm">
+                <h4 className="font-bold text-xl text-primary mb-1">Créatif</h4>
+                <p className="text-sm text-muted-foreground">Design moderne et unique</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-card border border-border/50 shadow-sm">
+                <h4 className="font-bold text-xl text-secondary mb-1">Technique</h4>
+                <p className="text-sm text-muted-foreground">Code propre et optimisé</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <motion.div
                 key={index}
-                className="text-center space-y-4"
+                className="group p-6 rounded-2xl bg-card border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
               >
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto">
-                  <Icon size={32} className="text-primary" />
+                <div className={`w-12 h-12 ${feature.bg} ${feature.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <Icon size={24} />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground">
+                <h3 className="text-lg font-bold text-foreground mb-2 flex items-center justify-between">
                   {feature.title}
+                  <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
                 </h3>
-                <p className="text-muted-foreground">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>
             );
           })}
         </div>
-
-        {/* Stats */}
-        <motion.div
-          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <div className="text-center">
-            <div className="text-4xl font-bold text-primary mb-2">30+</div>
-            <div className="text-muted-foreground">Projets réalisés</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-primary mb-2">2+</div>
-            <div className="text-muted-foreground">Années d'expérience</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-primary mb-2">100%</div>
-            <div className="text-muted-foreground">Clients satisfaits</div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

@@ -17,7 +17,7 @@ export interface Project {
 export interface Skill {
   name: string;
   level: number; // 1-100
-  category: 'frontend' | 'backend' | 'database' | 'tools' | 'design';
+  category: 'frontend' | 'backend' | 'database' | 'tools' | 'design' | 'marketing';
   icon?: string;
 }
 
@@ -61,5 +61,7 @@ export interface Theme {
     foreground: string;
   };
 }
+
+
 
 

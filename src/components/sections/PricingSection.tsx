@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Check, Globe, RefreshCw, ShoppingCart, Wrench, Atom, TrendingUp, GraduationCap, Link, ArrowRight } from 'lucide-react';
+import { Check, Globe, RefreshCw, ShoppingCart, Wrench, Atom, TrendingUp, GraduationCap, Link as LinkIcon, ArrowRight, Server, Database, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const services = [
@@ -19,7 +19,8 @@ const services = [
       'Hébergement inclus'
     ],
     price: 'À partir de 400€',
-    color: 'bg-blue-500',
+    color: 'text-blue-500',
+    bg: 'bg-blue-500/10',
     popular: false,
   },
   {
@@ -33,7 +34,8 @@ const services = [
       'Migration sécurisée'
     ],
     price: 'À partir de 300€',
-    color: 'bg-green-500',
+    color: 'text-green-500',
+    bg: 'bg-green-500/10',
     popular: false,
   },
   {
@@ -47,7 +49,8 @@ const services = [
       'Tableau de bord'
     ],
     price: 'À partir de 1000€',
-    color: 'bg-purple-500',
+    color: 'text-purple-500',
+    bg: 'bg-purple-500/10',
     popular: true,
   },
   {
@@ -61,7 +64,8 @@ const services = [
       'Monitoring 24/7'
     ],
     price: 'À partir de 50€/mois',
-    color: 'bg-orange-500',
+    color: 'text-orange-500',
+    bg: 'bg-orange-500/10',
     popular: false,
   },
   {
@@ -75,7 +79,8 @@ const services = [
       'Évolutivité'
     ],
     price: 'Sur devis',
-    color: 'bg-pink-500',
+    color: 'text-pink-500',
+    bg: 'bg-pink-500/10',
     popular: false,
   },
   {
@@ -89,7 +94,8 @@ const services = [
       'Suivi positions'
     ],
     price: 'À partir de 300€',
-    color: 'bg-red-500',
+    color: 'text-red-500',
+    bg: 'bg-red-500/10',
     popular: false,
   },
   {
@@ -103,11 +109,12 @@ const services = [
       'Conseils stratégiques'
     ],
     price: '150€/session',
-    color: 'bg-indigo-500',
+    color: 'text-indigo-500',
+    bg: 'bg-indigo-500/10',
     popular: false,
   },
   {
-    icon: Link,
+    icon: LinkIcon,
     title: 'Intégration API',
     description: 'Connexion de votre site avec des services externes (CRM, paiement, etc.)',
     features: [
@@ -117,7 +124,38 @@ const services = [
       'Tests complets'
     ],
     price: 'Sur devis',
-    color: 'bg-teal-500',
+    color: 'text-teal-500',
+    bg: 'bg-teal-500/10',
+    popular: false,
+  },
+  {
+    icon: Server,
+    title: 'Développement API REST',
+    description: 'Création d\'APIs RESTful robustes et documentées pour vos applications',
+    features: [
+      'API REST/GraphQL',
+      'Documentation Swagger',
+      'Authentification JWT',
+      'Tests & validation'
+    ],
+    price: 'À partir de 800€',
+    color: 'text-emerald-500',
+    bg: 'bg-emerald-500/10',
+    popular: false,
+  },
+  {
+    icon: Database,
+    title: 'Architecture Backend',
+    description: 'Conception et développement d\'architectures backend scalables et sécurisées',
+    features: [
+      'Architecture modulaire',
+      'Base de données optimisée',
+      'Sécurité renforcée',
+      'Scalabilité'
+    ],
+    price: 'Sur devis',
+    color: 'text-cyan-500',
+    bg: 'bg-cyan-500/10',
     popular: false,
   },
 ];
@@ -127,19 +165,27 @@ export function PricingSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="services" ref={ref} className="section-padding bg-muted/30">
-      <div className="container">
+    <section id="services" ref={ref} className="section-padding relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 skew-x-12 translate-x-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-1/3 h-full bg-secondary/5 -skew-x-12 -translate-x-20 pointer-events-none" />
+
+      <div className="container relative z-10">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8 }}
         >
+          <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-xl mb-4">
+            <Sparkles className="w-6 h-6 text-primary mr-2" />
+            <span className="text-primary font-semibold">Offres & Services</span>
+          </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground font-heading mb-6">
             Mes <span className="text-gradient">Services</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Solutions web complètes pour développer votre présence en ligne
+            Des solutions web sur mesure, adaptées à vos besoins et à votre budget.
           </p>
         </motion.div>
 
@@ -155,13 +201,13 @@ export function PricingSection() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <div className={cn(
-                  'bg-card border border-border rounded-2xl p-6 h-full transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-2xl',
-                  service.popular && 'ring-2 ring-primary'
+                  'glass-card p-6 h-full transition-all duration-300 group-hover:-translate-y-2',
+                  service.popular ? 'border-primary shadow-lg shadow-primary/10 ring-1 ring-primary/50' : 'hover:border-primary/30'
                 )}>
                   {/* Popular badge */}
                   {service.popular && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
+                      <span className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
                         Populaire
                       </span>
                     </div>
@@ -169,45 +215,50 @@ export function PricingSection() {
 
                   {/* Icon */}
                   <div className={cn(
-                    'w-12 h-12 rounded-xl flex items-center justify-center mb-4',
-                    service.color
+                    'w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300',
+                    service.bg
                   )}>
-                    <Icon size={24} className="text-white" />
+                    <Icon size={28} className={service.color} />
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
                     {service.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
+                  <p className="text-muted-foreground text-sm mb-6 leading-relaxed min-h-[60px]">
                     {service.description}
                   </p>
 
                   {/* Features */}
-                  <ul className="space-y-2 mb-6">
+                  <ul className="space-y-3 mb-8">
                     {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center space-x-2">
-                        <Check size={16} className="text-green-500 flex-shrink-0" />
+                      <li key={featureIndex} className="flex items-start space-x-3">
+                        <div className="mt-1 w-4 h-4 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                          <Check size={10} className="text-green-500" />
+                        </div>
                         <span className="text-sm text-muted-foreground">{feature}</span>
                       </li>
                     ))}
                   </ul>
 
                   {/* Price */}
-                  <div className="mt-auto">
-                    <a 
+                  <div className="mt-auto pt-6 border-t border-border/50">
+                    <div className="text-lg font-bold text-foreground mb-4 text-center">
+                      {service.price}
+                    </div>
+                    <a
                       href="/contact"
                       className={cn(
-                        'w-full py-3 px-4 rounded-lg font-semibold text-sm transition-all duration-200 flex items-center justify-center space-x-2',
+                        'w-full py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center space-x-2 group/btn',
                         service.popular
-                          ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                          : 'bg-muted text-foreground hover:bg-muted/80 border border-border'
+                          ? 'btn-primary shadow-lg shadow-primary/20'
+                          : 'bg-card border border-border hover:border-primary/50 hover:bg-primary/5 text-foreground'
                       )}
                     >
-                      <span>{service.price}</span>
-                      <ArrowRight size={16} />
+                      <span>Commander</span>
+                      <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                     </a>
                   </div>
                 </div>
@@ -218,26 +269,29 @@ export function PricingSection() {
 
         {/* CTA Section */}
         <motion.div
-          className="mt-16 text-center"
+          className="mt-20 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="bg-gradient-to-br from-primary/10 to-purple-600/10 border border-primary/20 rounded-2xl p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-semibold text-foreground mb-4">
-              Besoin d'un devis personnalisé ?
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              Chaque projet est unique. Contactez-moi pour discuter de vos besoins spécifiques.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/contact" className="btn-primary px-8 py-3 rounded-lg flex items-center justify-center space-x-2">
-                <span>Demander un devis gratuit</span>
-                <ArrowRight size={18} />
-              </a>
-              <a href="/contact" className="btn-outline px-8 py-3 rounded-lg flex items-center justify-center space-x-2">
-                <span>Planifier un appel</span>
-              </a>
+          <div className="relative overflow-hidden rounded-3xl p-1">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-primary opacity-20 blur-xl" />
+            <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-[22px] p-10 max-w-4xl mx-auto">
+              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
+                Besoin d'un devis personnalisé ?
+              </h3>
+              <p className="text-muted-foreground mb-8 text-lg">
+                Chaque projet est unique. Contactez-moi pour discuter de vos besoins spécifiques et obtenir une estimation précise.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/contact" className="btn-primary px-8 py-4 rounded-xl flex items-center justify-center space-x-2 text-lg shadow-xl shadow-primary/20">
+                  <span>Demander un devis gratuit</span>
+                  <ArrowRight size={20} />
+                </a>
+                <a href="/contact" className="px-8 py-4 rounded-xl border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 flex items-center justify-center space-x-2 text-lg font-medium">
+                  <span>Planifier un appel</span>
+                </a>
+              </div>
             </div>
           </div>
         </motion.div>
