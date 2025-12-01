@@ -43,7 +43,7 @@ export function Footer() {
               <div className="flex items-center space-x-4">
                 <div className="relative w-12 h-12 rounded-xl overflow-hidden ring-2 ring-primary/20 shadow-lg shadow-primary/10">
                   <Image
-                    src="/images/loucman-machababy.jpg"
+                    src="/images/photo-salomon.JPG"
                     alt="Loucman Machababy"
                     fill
                     className="object-cover"

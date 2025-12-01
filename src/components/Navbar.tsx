@@ -127,7 +127,7 @@ export function Navbar() {
               whileTap={{ scale: 0.95 }}
             >
               <Image
-                src="/images/loucman-machababy.jpg"
+                src="/images/photo-salomon.JPG"
                 alt="Loucman Machababy"
                 fill
                 className="object-cover"

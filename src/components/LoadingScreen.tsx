@@ -36,7 +36,7 @@ export function LoadingScreen() {
               transition={{ duration: 0.5 }}
             >
               <Image
-                src="/images/loucman-machababy.jpg"
+                src="/images/Gemini_Generated_Image_b34uyxb34uyxb34u.png"
                 alt="Loucman Machababy"
                 fill
                 className="object-cover"

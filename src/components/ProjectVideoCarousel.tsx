@@ -116,18 +116,38 @@ export function ProjectVideoCarousel() {
   const [activeProject, setActiveProject] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   const currentProject = projectVideos[activeProject];
 
+  // Détecter si on est sur mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Réinitialiser le chargement quand on change de projet
+  useEffect(() => {
+    setIsVideoLoading(true);
+  }, [activeProject]);
+
   const handleProjectChange = (index: number) => {
+    setIsVideoLoading(true);
     setActiveProject(index);
   };
 
   const goToPrevious = () => {
+    setIsVideoLoading(true);
     setActiveProject((prev) => (prev === 0 ? projectVideos.length - 1 : prev - 1));
   };
 
   const goToNext = () => {
+    setIsVideoLoading(true);
     setActiveProject((prev) => (prev === projectVideos.length - 1 ? 0 : prev + 1));
   };
 
@@ -202,6 +222,16 @@ export function ProjectVideoCarousel() {
           <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary opacity-20 blur-xl group-hover:opacity-30 transition-opacity duration-500" />
 
           <div className={`relative z-10 ${currentProject.isMobile ? 'aspect-[9/16] max-w-sm mx-auto my-8 rounded-[2rem] overflow-hidden ring-8 ring-black' : 'aspect-video'}`}>
+            {/* Loading Indicator */}
+            {isVideoLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-20">
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+                  <p className="text-white/80 text-sm">Chargement de la vidéo...</p>
+                </div>
+              </div>
+            )}
+            
             <video
               key={currentProject.id}
               className={`w-full h-full ${currentProject.isMobile ? 'object-cover' : 'object-cover'}`}
@@ -211,6 +241,10 @@ export function ProjectVideoCarousel() {
               autoPlay
               loop
               playsInline
+              preload={isMobile ? "none" : "metadata"}
+              onLoadedData={() => setIsVideoLoading(false)}
+              onCanPlay={() => setIsVideoLoading(false)}
+              onWaiting={() => setIsVideoLoading(true)}
               onEnded={handleVideoEnded}
             >
               <source src={currentProject.videoUrl} type="video/mp4" />

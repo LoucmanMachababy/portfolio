@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
@@ -74,6 +75,26 @@ export function AboutSection() {
             </div>
           </motion.div>
         </div>
+
+        {/* Photo */}
+        <motion.div
+          className="mb-20 max-w-md mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="relative group overflow-hidden rounded-2xl glass-card p-2">
+            <div className="relative aspect-[3/4] rounded-xl overflow-hidden">
+              <Image
+                src="/images/photo-salomon.JPG"
+                alt="Loucman Machababy"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 400px"
+              />
+            </div>
+          </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => {

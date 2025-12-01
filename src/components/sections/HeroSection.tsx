@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Download, MapPin, CheckCircle, Sparkles, Code2, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -20,6 +20,20 @@ const guarantees = [
 ];
 
 export function HeroSection() {
+  const [currentPhoto, setCurrentPhoto] = useState(0);
+  const photos = [
+    '/images/Gemini_Generated_Image_b34uyxb34uyxb34u.png',
+    '/images/photo-salomon.JPG',
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPhoto((prev) => (prev + 1) % photos.length);
+    }, 5000); // Change photo every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [photos.length]);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-24 pb-20 overflow-hidden">
       {/* Background Elements */}
@@ -121,14 +135,42 @@ export function HeroSection() {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 rounded-2xl" />
 
               <div className="relative h-full w-full rounded-xl overflow-hidden">
-                <Image
-                  src="/images/loucman-machababy.jpg"
-                  alt="Loucman Machababy"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
-                  sizes="(max-width: 768px) 100vw, 500px"
-                  priority
-                />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentPhoto}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.6 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={photos[currentPhoto]}
+                      alt="Loucman Machababy"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, 500px"
+                      priority={currentPhoto === 0}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Photo Indicators */}
+                <div className="absolute top-4 right-4 flex gap-2 z-10">
+                  {photos.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentPhoto(index)}
+                      className={cn(
+                        "w-2 h-2 rounded-full transition-all duration-300",
+                        currentPhoto === index
+                          ? "bg-white w-6"
+                          : "bg-white/50 hover:bg-white/75"
+                      )}
+                      aria-label={`Photo ${index + 1}`}
+                    />
+                  ))}
+                </div>
 
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
