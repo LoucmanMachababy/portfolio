@@ -73,8 +73,8 @@ export function ExperienceShell() {
             <p className="welcome__place">Parc des Princes · Virage Auteuil</p>
             <h1 className="welcome__brand">{profile.name}</h1>
             <p className="welcome__lead">
-              {profile.role}. Marche dans la coursive, approche les tables de matos ultra
-              pour ouvrir le portfolio.
+              {profile.role}. Marche dans la coursive Auteuil — volets jaunes, fluos,
+              graffs — et lève un rideau pour ouvrir le portfolio.
             </p>
             <div className="welcome__actions">
               <button

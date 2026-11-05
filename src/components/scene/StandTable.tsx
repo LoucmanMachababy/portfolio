@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text, Html } from "@react-three/drei";
 import type { Mesh } from "three";
 import type { StandTable as StandTableType } from "@/content/tables";
+import { makeShutterTexture } from "./textures";
 
 type Props = {
   table: StandTableType;
@@ -13,15 +14,23 @@ type Props = {
   onSelect: (id: StandTableType["id"]) => void;
 };
 
+/**
+ * Stand « matos ultra » = volet métallique ondulé (refs Auteuil),
+ * pas une table générique de foire.
+ */
 export function StandTableMesh({ table, active, nearby, onSelect }: Props) {
-  const glowRef = useRef<Mesh>(null);
+  const frameRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
+  const shutterMap = useMemo(
+    () => makeShutterTexture(table.shutterColor, table.accent),
+    [table.shutterColor, table.accent],
+  );
 
   useFrame(({ clock }) => {
-    if (!glowRef.current) return;
-    const pulse = 0.15 + Math.sin(clock.elapsedTime * 2.5) * 0.08;
-    const mat = glowRef.current.material as import("three").MeshStandardMaterial;
-    mat.emissiveIntensity = nearby || active || hovered ? 0.55 + pulse : 0.12;
+    if (!frameRef.current) return;
+    const pulse = nearby || active || hovered ? 0.35 + Math.sin(clock.elapsedTime * 3) * 0.15 : 0.05;
+    const mat = frameRef.current.material as import("three").MeshStandardMaterial;
+    mat.emissiveIntensity = pulse;
   });
 
   return (
@@ -42,68 +51,81 @@ export function StandTableMesh({ table, active, nearby, onSelect }: Props) {
         document.body.style.cursor = "default";
       }}
     >
-      {/* Plateau */}
-      <mesh position={[0, 0.95, 0]} castShadow>
-        <boxGeometry args={[2.2, 0.08, 1.1]} />
-        <meshStandardMaterial color="#2b2f36" roughness={0.7} metalness={0.15} />
+      {/* Encadrement béton / alu du stand */}
+      <mesh position={[0, 1.35, -0.22]} castShadow>
+        <boxGeometry args={[2.55, 2.75, 0.35]} />
+        <meshStandardMaterial color="#3a3f46" roughness={0.85} metalness={0.15} />
       </mesh>
 
-      {/* Nappe / matos */}
-      <mesh ref={glowRef} position={[0, 1.0, 0]} castShadow>
-        <boxGeometry args={[2.05, 0.04, 0.95]} />
+      {/* Rideau ondulé */}
+      <mesh position={[0, 1.25, 0]} castShadow>
+        <boxGeometry args={[2.35, 2.45, 0.08]} />
         <meshStandardMaterial
-          color={table.clothColor}
+          map={shutterMap}
+          roughness={0.45}
+          metalness={0.55}
           emissive={table.accent}
-          emissiveIntensity={0.15}
-          roughness={0.85}
+          emissiveIntensity={0.05}
         />
       </mesh>
 
-      {/* Pieds */}
-      {[
-        [-0.9, 0.45, -0.4],
-        [0.9, 0.45, -0.4],
-        [-0.9, 0.45, 0.4],
-        [0.9, 0.45, 0.4],
-      ].map((p, i) => (
-        <mesh key={i} position={p as [number, number, number]} castShadow>
-          <boxGeometry args={[0.08, 0.9, 0.08]} />
-          <meshStandardMaterial color="#1f2937" metalness={0.3} roughness={0.5} />
-        </mesh>
-      ))}
-
-      {/* Objets sur table (écharpes / piles) */}
-      <mesh position={[-0.55, 1.12, 0.1]} rotation={[0.1, 0.4, 0.2]}>
-        <boxGeometry args={[0.7, 0.12, 0.35]} />
-        <meshStandardMaterial color={table.accent} roughness={0.65} />
-      </mesh>
-      <mesh position={[0.5, 1.14, -0.15]} rotation={[0, -0.3, 0]}>
-        <boxGeometry args={[0.55, 0.18, 0.4]} />
-        <meshStandardMaterial color="#e5e7eb" roughness={0.8} />
-      </mesh>
-      <mesh position={[0.15, 1.18, 0.25]}>
-        <cylinderGeometry args={[0.12, 0.12, 0.28, 16]} />
-        <meshStandardMaterial color="#0f172a" roughness={0.4} metalness={0.2} />
+      {/* Liseré lumineux quand proche */}
+      <mesh ref={frameRef} position={[0, 1.25, 0.05]}>
+        <boxGeometry args={[2.42, 2.52, 0.02]} />
+        <meshStandardMaterial
+          color="#111"
+          emissive={table.accent}
+          emissiveIntensity={0.05}
+          transparent
+          opacity={0.35}
+        />
       </mesh>
 
+      {/* Comptoir bas (matos ultra) */}
+      <mesh position={[0, 0.55, 0.35]} castShadow>
+        <boxGeometry args={[2.2, 0.12, 0.7]} />
+        <meshStandardMaterial color="#1f242b" roughness={0.7} metalness={0.2} />
+      </mesh>
+      <mesh position={[-0.55, 0.68, 0.4]} rotation={[0.15, 0.4, 0]}>
+        <boxGeometry args={[0.65, 0.1, 0.3]} />
+        <meshStandardMaterial color={table.accent} roughness={0.6} />
+      </mesh>
+      <mesh position={[0.45, 0.7, 0.35]} rotation={[0, -0.25, 0]}>
+        <boxGeometry args={[0.5, 0.14, 0.35]} />
+        <meshStandardMaterial color="#e8eef6" roughness={0.75} />
+      </mesh>
+
+      {/* Pastille accès */}
+      <mesh position={[0.95, 2.35, 0.06]}>
+        <planeGeometry args={[0.55, 0.28]} />
+        <meshStandardMaterial color="#004170" roughness={0.5} />
+      </mesh>
       <Text
-        position={[0, 1.55, 0]}
-        fontSize={0.18}
-        color={table.accent}
+        position={[0.95, 2.35, 0.08]}
+        fontSize={0.12}
+        color="#ffffff"
         anchorX="center"
         anchorY="middle"
-        maxWidth={2}
-        outlineWidth={0.012}
+      >
+        {table.accessLabel}
+      </Text>
+
+      <Text
+        position={[0, 2.65, 0.1]}
+        fontSize={0.16}
+        color="#f5f0e6"
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={2.2}
+        outlineWidth={0.01}
         outlineColor="#000000"
       >
         {table.title}
       </Text>
 
       {(nearby || active) && (
-        <Html position={[0, 2.05, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
-          <div className="table-hint">
-            {active ? "Ouvert" : "E — ouvrir"}
-          </div>
+        <Html position={[0, 3.05, 0.2]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+          <div className="table-hint">{active ? "Volet ouvert" : "E — lever le volet"}</div>
         </Html>
       )}
     </group>

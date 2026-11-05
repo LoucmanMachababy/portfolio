@@ -92,7 +92,7 @@ export function PlayerControls({
     );
 
     let closest: StandTable["id"] | null = null;
-    let best = 2.4;
+    let best = 2.85;
     for (const t of tables) {
       const dx = camera.position.x - t.position[0];
       const dz = camera.position.z - t.position[2];
