@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import { ContentPanel } from "./ContentPanel";
 import { NavMenu } from "./NavMenu";
+import { ChantPlayer } from "../audio/ChantPlayer";
 import { standTables, type TableId } from "@/content/tables";
 import { profile } from "@/content/bio";
 
@@ -18,6 +19,7 @@ export function ExperienceShell() {
   const [activeTable, setActiveTable] = useState<TableId | null>(null);
   const [nearby, setNearby] = useState<TableId | null>(null);
   const [prefer2d, setPrefer2d] = useState(false);
+  const [mouseLocked, setMouseLocked] = useState(false);
 
   useEffect(() => {
     const coarse = window.matchMedia("(pointer: coarse)").matches;
@@ -64,6 +66,7 @@ export function ExperienceShell() {
           controlsEnabled={started}
           onOpenTable={openTable}
           onNearbyChange={setNearby}
+          onLockChange={setMouseLocked}
         />
       </div>
 
@@ -95,7 +98,7 @@ export function ExperienceShell() {
             <p className="welcome__help">
               {prefer2d
                 ? "Sur mobile, la version 2D est plus confortable. La 3D reste cliquable via le menu."
-                : "ZQSD / WASD · souris pour regarder · E près d'une table · Esc pour fermer"}
+                : "Clic = capturer la souris (regard FPS) · ZQSD · E près d'un stand · Esc libère"}
             </p>
           </div>
         </div>
@@ -104,12 +107,16 @@ export function ExperienceShell() {
       {started && !panelOpen && (
         <div className="hud" aria-live="polite">
           <p>
-            {nearby
-              ? `Près de « ${standTables.find((t) => t.id === nearby)?.title ?? nearby} » — appuie sur E`
-              : "Explore la coursive · Menu toujours dispo"}
+            {!mouseLocked
+              ? "Clic pour regarder (souris = tête) · Esc libère le curseur"
+              : nearby
+                ? `Près de « ${standTables.find((t) => t.id === nearby)?.title ?? nearby} » — appuie sur E`
+                : "ZQSD · ultras devant les volets · Esc = curseur"}
           </p>
         </div>
       )}
+
+      <ChantPlayer active={started} />
 
       {activeTable && <ContentPanel tableId={activeTable} onClose={closePanel} />}
     </div>

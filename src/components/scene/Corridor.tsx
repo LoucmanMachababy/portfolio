@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
-import { Text, useTexture } from "@react-three/drei";
+import { Suspense, useMemo } from "react";
+import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import {
   AUTEUIL,
@@ -13,9 +13,10 @@ import {
   makeHeritageSticker,
 } from "./textures";
 
-const CORRIDOR_LENGTH = 30;
-const CORRIDOR_WIDTH = 7.2;
+export const CORRIDOR_LENGTH = 30;
+export const CORRIDOR_WIDTH = 7.2;
 const WALL_HEIGHT = 3.45;
+const WALL_TINT = "#b4bac2";
 
 function AccessSign({
   position,
@@ -94,11 +95,14 @@ function Fluorescent({ z }: { z: number }) {
         <meshStandardMaterial
           color={AUTEUIL.fluo}
           emissive="#fff6c8"
-          emissiveIntensity={2.8}
+          emissiveIntensity={3.2}
           toneMapped={false}
         />
       </mesh>
-      <pointLight intensity={1.15} distance={8} color="#fff1c2" position={[0, -0.35, 0]} />
+      {/* Plafond + lessivage des murs (sinon sol seul lit) */}
+      <pointLight intensity={2.4} distance={11} decay={2} color="#fff1c2" position={[0, -0.35, 0]} />
+      <pointLight intensity={1.1} distance={7} decay={2} color="#ffe8b0" position={[-2.4, -1.1, 0]} />
+      <pointLight intensity={1.1} distance={7} decay={2} color="#ffe8b0" position={[2.4, -1.1, 0]} />
     </group>
   );
 }
@@ -170,7 +174,24 @@ function SlantedTiers() {
   );
 }
 
-function MuralPlane({
+function MuralFallback({
+  position,
+  rotation,
+  size,
+}: {
+  position: [number, number, number];
+  rotation: [number, number, number];
+  size: [number, number];
+}) {
+  return (
+    <mesh position={position} rotation={rotation}>
+      <planeGeometry args={size} />
+      <meshStandardMaterial color="#6a7180" roughness={0.9} metalness={0.02} />
+    </mesh>
+  );
+}
+
+function MuralPlaneTextured({
   url,
   position,
   rotation,
@@ -186,8 +207,22 @@ function MuralPlane({
   return (
     <mesh position={position} rotation={rotation}>
       <planeGeometry args={size} />
-      <meshStandardMaterial map={texture} roughness={0.85} metalness={0.02} />
+      <meshStandardMaterial map={texture} roughness={0.85} metalness={0.02} side={THREE.DoubleSide} />
     </mesh>
+  );
+}
+
+function MuralPlane(props: {
+  url: string;
+  position: [number, number, number];
+  rotation: [number, number, number];
+  size: [number, number];
+}) {
+  const { position, rotation, size } = props;
+  return (
+    <Suspense fallback={<MuralFallback position={position} rotation={rotation} size={size} />}>
+      <MuralPlaneTextured {...props} />
+    </Suspense>
   );
 }
 
@@ -221,16 +256,14 @@ function HeritageWall() {
         <planeGeometry args={[1.2, 1.0]} />
         <meshStandardMaterial map={va91} roughness={0.75} />
       </mesh>
-      <Text
+      <Banner
         position={[x - 0.02, 0.75, z]}
         rotation={[0, -Math.PI / 2, 0]}
-        fontSize={0.12}
-        color="#9aa8b8"
-        anchorX="center"
-        maxWidth={3}
-      >
-        Héritage du virage — pas une chronique judiciaire
-      </Text>
+        text="Héritage du virage — hommage"
+        width={3.2}
+        fg="#c8d0da"
+        bg="#1a1e24"
+      />
     </group>
   );
 }
@@ -278,13 +311,13 @@ export function Corridor() {
     return t;
   }, []);
   const concreteMap = useMemo(() => {
-    const t = makeConcreteTexture(AUTEUIL.beton);
+    const t = makeConcreteTexture(WALL_TINT);
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
     t.repeat.set(2, 6);
     return t;
   }, []);
   const ceilingMap = useMemo(() => {
-    const t = makeConcreteTexture(AUTEUIL.plafond);
+    const t = makeConcreteTexture("#d2c8ba");
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
     t.repeat.set(2, 8);
     return t;
@@ -304,7 +337,7 @@ export function Corridor() {
 
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, WALL_HEIGHT, -CORRIDOR_LENGTH / 2]}>
         <planeGeometry args={[CORRIDOR_WIDTH, CORRIDOR_LENGTH]} />
-        <meshStandardMaterial map={ceilingMap} roughness={0.95} />
+        <meshStandardMaterial map={ceilingMap} color="#d2c8ba" roughness={0.95} />
       </mesh>
       <CeilingPipes />
       {fluoZs.map((z) => (
@@ -312,12 +345,26 @@ export function Corridor() {
       ))}
 
       <mesh position={[CORRIDOR_WIDTH / 2, WALL_HEIGHT / 2, -CORRIDOR_LENGTH / 2]} receiveShadow>
-        <boxGeometry args={[0.4, WALL_HEIGHT, CORRIDOR_LENGTH]} />
-        <meshStandardMaterial map={concreteMap} roughness={0.94} />
+        <boxGeometry args={[0.45, WALL_HEIGHT, CORRIDOR_LENGTH]} />
+        <meshStandardMaterial
+          map={concreteMap}
+          color={WALL_TINT}
+          roughness={0.82}
+          metalness={0}
+          emissive="#6a7380"
+          emissiveIntensity={0.22}
+        />
       </mesh>
       <mesh position={[-CORRIDOR_WIDTH / 2, WALL_HEIGHT / 2, -CORRIDOR_LENGTH / 2]} receiveShadow>
-        <boxGeometry args={[0.4, WALL_HEIGHT, CORRIDOR_LENGTH]} />
-        <meshStandardMaterial map={concreteMap} roughness={0.94} />
+        <boxGeometry args={[0.45, WALL_HEIGHT, CORRIDOR_LENGTH]} />
+        <meshStandardMaterial
+          map={concreteMap}
+          color={WALL_TINT}
+          roughness={0.82}
+          metalness={0}
+          emissive="#6a7380"
+          emissiveIntensity={0.22}
+        />
       </mesh>
       <SlantedTiers />
 
@@ -370,7 +417,7 @@ export function Corridor() {
 
       <mesh position={[0, WALL_HEIGHT / 2, 1.4]}>
         <boxGeometry args={[CORRIDOR_WIDTH + 0.6, WALL_HEIGHT, 0.45]} />
-        <meshStandardMaterial color={AUTEUIL.betonFonce} roughness={0.92} />
+        <meshStandardMaterial color="#6a717a" roughness={0.9} emissive="#1a1e24" emissiveIntensity={0.08} />
       </mesh>
 
       <PitchOpening />
@@ -445,7 +492,7 @@ export function Corridor() {
         width={1.5}
       />
 
-      {/* Tags flottants */}
+      {/* Tags flottants — Banner canvas (pas de Text/drei qui suspend) */}
       {[
         { p: [-3.3, 2.15, -3.8] as [number, number, number], c: AUTEUIL.rouge, t: "K-SOCE" },
         { p: [3.3, 2.05, -9.2] as [number, number, number], c: AUTEUIL.bleu, t: "UP17" },
@@ -454,24 +501,16 @@ export function Corridor() {
         { p: [-3.3, 2.0, -19.5] as [number, number, number], c: "#ffffff", t: "VA91" },
         { p: [3.3, 2.25, -22] as [number, number, number], c: AUTEUIL.bleu, t: "ATK" },
       ].map((s) => (
-        <Text
+        <Banner
           key={s.t + s.p.join()}
           position={s.p}
           rotation={[0, s.p[0] > 0 ? -Math.PI / 2 : Math.PI / 2, 0]}
-          fontSize={0.26}
-          color={s.c}
-          anchorX="center"
-          outlineWidth={0.012}
-          outlineColor="#000"
-        >
-          {s.t}
-        </Text>
+          text={s.t}
+          width={1.1}
+          fg={s.c}
+          bg="#0a0a0a"
+        />
       ))}
-
-      <ambientLight intensity={0.18} />
-      <hemisphereLight args={["#c9b8a0", "#1a1f26", 0.35]} />
-      <fog attach="fog" args={["#1a1512", 12, 36]} />
-      <color attach="background" args={["#12161c"]} />
     </group>
   );
 }
@@ -480,5 +519,8 @@ export const CORRIDOR_BOUNDS = {
   minX: -CORRIDOR_WIDTH / 2 + 0.85,
   maxX: CORRIDOR_WIDTH / 2 - 0.85,
   minZ: -CORRIDOR_LENGTH + 1.6,
-  maxZ: 0.2,
+  maxZ: -0.4,
 };
+
+/** Spawn FPS — un peu dans la coursive, regard vers le fond (-Z). */
+export const PLAYER_SPAWN: [number, number, number] = [0, 1.68, -1.8];

@@ -229,3 +229,42 @@ export function makeCrewFlagTexture(name: string, accent: string) {
     ctx.fillText(name, size / 2, size * 0.52);
   }, 512);
 }
+
+/** Tee / hoodie print pour NPCs (labels CUP / crews). */
+export function makeTeeTexture(label: string, primary: string, secondary: string) {
+  return canvasTex((ctx, size) => {
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = secondary;
+    ctx.fillRect(0, size * 0.08, size, size * 0.07);
+    ctx.fillRect(0, size * 0.85, size, size * 0.07);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 42px Impact, sans-serif";
+    ctx.textAlign = "center";
+    const lines = label.split("\n");
+    lines.forEach((line, i) => {
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = "#000";
+      ctx.strokeText(line, size / 2, size * (0.42 + i * 0.14));
+      ctx.fillText(line, size / 2, size * (0.42 + i * 0.14));
+    });
+  }, 512);
+}
+
+/** Écharpe pliée type ultras-schal (bandes rouge/bleu + tag). */
+export function makeScarfTexture(tag: string) {
+  return canvasTex((ctx, size) => {
+    const band = size / 8;
+    for (let i = 0; i < 8; i++) {
+      ctx.fillStyle = i % 2 === 0 ? AUTEUIL.rouge : AUTEUIL.bleu;
+      ctx.fillRect(0, i * band, size, band);
+    }
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 56px Impact, sans-serif";
+    ctx.textAlign = "center";
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 8;
+    ctx.strokeText(tag, size / 2, size * 0.55);
+    ctx.fillText(tag, size / 2, size * 0.55);
+  }, 512);
+}
