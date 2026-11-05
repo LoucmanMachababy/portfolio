@@ -30,8 +30,12 @@ function canvasTex(
   return tex;
 }
 
-/** Rideau métallique ondulé jaune + bandes rouge/bleu. */
-export function makeShutterTexture(base: string = AUTEUIL.jauneVolet, accent: string = AUTEUIL.rouge) {
+/** Rideau métallique ondulé + tag groupe (ambiance). */
+export function makeShutterTexture(
+  base: string = AUTEUIL.jauneVolet,
+  accent: string = AUTEUIL.rouge,
+  crewTag = "VA91",
+) {
   return canvasTex((ctx, size) => {
     ctx.fillStyle = base;
     ctx.fillRect(0, 0, size, size);
@@ -43,24 +47,31 @@ export function makeShutterTexture(base: string = AUTEUIL.jauneVolet, accent: st
       ctx.fillStyle = g;
       ctx.fillRect(0, y, size, 10);
     }
-    // Bandes verticales PSG-like
     ctx.fillStyle = accent;
-    ctx.fillRect(size * 0.12, 0, size * 0.08, size);
+    ctx.fillRect(size * 0.1, 0, size * 0.07, size);
     ctx.fillStyle = AUTEUIL.bleu;
-    ctx.fillRect(size * 0.22, 0, size * 0.08, size);
+    ctx.fillRect(size * 0.19, 0, size * 0.07, size);
     ctx.fillStyle = accent;
-    ctx.fillRect(size * 0.7, 0, size * 0.08, size);
+    ctx.fillRect(size * 0.74, 0, size * 0.07, size);
     ctx.fillStyle = AUTEUIL.bleu;
-    ctx.fillRect(size * 0.8, 0, size * 0.08, size);
-    // Tags
-    ctx.fillStyle = "rgba(0,0,0,0.55)";
-    ctx.font = "bold 42px sans-serif";
-    ctx.rotate(-0.2);
-    ctx.fillText("TM 93", size * 0.35, size * 0.55);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = "rgba(255,255,255,0.25)";
-    ctx.font = "28px sans-serif";
-    ctx.fillText("VA", size * 0.55, size * 0.82);
+    ctx.fillRect(size * 0.83, 0, size * 0.07, size);
+
+    // Tag crew bubble style
+    ctx.save();
+    ctx.translate(size * 0.5, size * 0.48);
+    ctx.rotate(-0.08);
+    ctx.font = "bold 64px Impact, sans-serif";
+    ctx.textAlign = "center";
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = "#000";
+    ctx.strokeText(crewTag, 0, 0);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(crewTag, 0, 0);
+    ctx.restore();
+
+    ctx.fillStyle = "rgba(0,0,0,0.35)";
+    ctx.font = "bold 26px sans-serif";
+    ctx.fillText("CUP", size * 0.72, size * 0.88);
   });
 }
 
@@ -68,7 +79,6 @@ export function makeFloorTexture() {
   return canvasTex((ctx, size) => {
     ctx.fillStyle = AUTEUIL.solRouge;
     ctx.fillRect(0, 0, size, size);
-    // Usure
     for (let i = 0; i < 80; i++) {
       ctx.fillStyle = `rgba(40,20,15,${0.04 + Math.random() * 0.08})`;
       ctx.beginPath();
@@ -83,20 +93,25 @@ export function makeFloorTexture() {
       );
       ctx.fill();
     }
-    // Tag sol 1970
     ctx.save();
-    ctx.translate(size * 0.35, size * 0.55);
+    ctx.translate(size * 0.28, size * 0.55);
     ctx.rotate(-0.35);
-    ctx.font = "bold 96px Impact, sans-serif";
+    ctx.font = "bold 90px Impact, sans-serif";
     ctx.strokeStyle = AUTEUIL.bleu;
     ctx.lineWidth = 8;
     ctx.strokeText("1970", 0, 0);
     ctx.fillStyle = AUTEUIL.rouge;
     ctx.fillText("1970", 0, 0);
     ctx.restore();
+
+    ctx.fillStyle = "rgba(0,40,80,0.4)";
+    ctx.font = "bold 40px sans-serif";
+    ctx.fillText("VA91", size * 0.62, size * 0.28);
+    ctx.fillStyle = "rgba(180,30,30,0.4)";
+    ctx.fillText("K-SOCE", size * 0.55, size * 0.72);
     ctx.fillStyle = "rgba(0,40,80,0.35)";
-    ctx.font = "bold 48px sans-serif";
-    ctx.fillText("COMMANDO", size * 0.55, size * 0.3);
+    ctx.font = "bold 32px sans-serif";
+    ctx.fillText("BERIZ", size * 0.15, size * 0.35);
   }, 1024);
 }
 
@@ -109,7 +124,6 @@ export function makeConcreteTexture(tint = "#6e7379") {
       ctx.fillStyle = `rgba(${v},${v},${v + 5},${0.04 + Math.random() * 0.08})`;
       ctx.fillRect(Math.random() * size, Math.random() * size, 2, 2);
     }
-    // Coffrage lines
     ctx.strokeStyle = "rgba(0,0,0,0.12)";
     ctx.lineWidth = 2;
     for (let x = 0; x < size; x += 64) {
@@ -126,12 +140,12 @@ export function makeAccessSignTexture(title: string, seats?: string) {
     ctx.fillStyle = AUTEUIL.bleu;
     ctx.fillRect(0, 0, size, size);
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 72px Impact, sans-serif";
+    ctx.font = "bold 64px Impact, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText(title, size / 2, size * 0.42);
     if (seats) {
       ctx.fillStyle = "rgba(255,255,255,0.9)";
-      ctx.font = "28px sans-serif";
+      ctx.font = "26px sans-serif";
       ctx.fillText(seats, size / 2, size * 0.7);
     }
   }, 512);
@@ -147,7 +161,7 @@ export function makeBannerTexture(text: string, bg = "#0a0a0a", fg = "#f5a623") 
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, w, h);
   ctx.fillStyle = fg;
-  ctx.font = "bold 52px Impact, sans-serif";
+  ctx.font = "bold 48px Impact, sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(text, w / 2, h / 2);
@@ -155,4 +169,63 @@ export function makeBannerTexture(text: string, bg = "#0a0a0a", fg = "#f5a623") 
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.needsUpdate = true;
   return tex;
+}
+
+/** Sticker patrimoine (Supras / ATK / VA91). */
+export function makeHeritageSticker(label: string, variant: "supras" | "atk" | "va91") {
+  return canvasTex((ctx, size) => {
+    if (variant === "va91") {
+      ctx.fillStyle = AUTEUIL.rouge;
+      ctx.fillRect(0, 0, size, size / 2);
+      ctx.fillStyle = AUTEUIL.bleu;
+      ctx.fillRect(0, size / 2, size, size / 2);
+      ctx.font = "bold 110px Impact, sans-serif";
+      ctx.textAlign = "center";
+      ctx.lineWidth = 12;
+      ctx.strokeStyle = "#000";
+      ctx.strokeText("VA91", size / 2, size * 0.58);
+      ctx.fillStyle = "#fff";
+      ctx.fillText("VA91", size / 2, size * 0.58);
+      return;
+    }
+    ctx.fillStyle = "#111";
+    ctx.fillRect(0, 0, size, size);
+    if (variant === "supras") {
+      // Panthère simplifiée (cercle + museau)
+      ctx.fillStyle = "#f5f5f5";
+      ctx.beginPath();
+      ctx.arc(size / 2, size * 0.42, size * 0.28, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#111";
+      ctx.beginPath();
+      ctx.ellipse(size * 0.4, size * 0.38, 18, 22, 0, 0, Math.PI * 2);
+      ctx.ellipse(size * 0.6, size * 0.38, 18, 22, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = AUTEUIL.rouge;
+      ctx.beginPath();
+      ctx.moveTo(size * 0.5, size * 0.48);
+      ctx.lineTo(size * 0.42, size * 0.58);
+      ctx.lineTo(size * 0.58, size * 0.58);
+      ctx.fill();
+    }
+    ctx.fillStyle = variant === "atk" ? AUTEUIL.bleu : AUTEUIL.rouge;
+    ctx.font = "bold 56px Impact, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(label, size / 2, size * 0.86);
+  });
+}
+
+export function makeCrewFlagTexture(name: string, accent: string) {
+  return canvasTex((ctx, size) => {
+    ctx.fillStyle = "#0a0a0a";
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = accent;
+    ctx.fillRect(0, size * 0.12, size, size * 0.1);
+    ctx.fillStyle = AUTEUIL.bleu;
+    ctx.fillRect(0, size * 0.78, size, size * 0.1);
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 54px Impact, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(name, size / 2, size * 0.52);
+  }, 512);
 }

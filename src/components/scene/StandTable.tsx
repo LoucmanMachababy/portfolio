@@ -15,15 +15,15 @@ type Props = {
 };
 
 /**
- * Stand « matos ultra » = volet métallique ondulé (refs Auteuil),
- * pas une table générique de foire.
+ * Stand « matos ultra » = volet métallique ondulé.
+ * Le crewTag est de l’ambiance murale — le clic ouvre toujours le contenu portfolio.
  */
 export function StandTableMesh({ table, active, nearby, onSelect }: Props) {
   const frameRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
   const shutterMap = useMemo(
-    () => makeShutterTexture(table.shutterColor, table.accent),
-    [table.shutterColor, table.accent],
+    () => makeShutterTexture(table.shutterColor, table.accent, table.crewTag),
+    [table.shutterColor, table.accent, table.crewTag],
   );
 
   useFrame(({ clock }) => {
@@ -51,13 +51,11 @@ export function StandTableMesh({ table, active, nearby, onSelect }: Props) {
         document.body.style.cursor = "default";
       }}
     >
-      {/* Encadrement béton / alu du stand */}
       <mesh position={[0, 1.35, -0.22]} castShadow>
         <boxGeometry args={[2.55, 2.75, 0.35]} />
         <meshStandardMaterial color="#3a3f46" roughness={0.85} metalness={0.15} />
       </mesh>
 
-      {/* Rideau ondulé */}
       <mesh position={[0, 1.25, 0]} castShadow>
         <boxGeometry args={[2.35, 2.45, 0.08]} />
         <meshStandardMaterial
@@ -69,7 +67,6 @@ export function StandTableMesh({ table, active, nearby, onSelect }: Props) {
         />
       </mesh>
 
-      {/* Liseré lumineux quand proche */}
       <mesh ref={frameRef} position={[0, 1.25, 0.05]}>
         <boxGeometry args={[2.42, 2.52, 0.02]} />
         <meshStandardMaterial
@@ -81,7 +78,6 @@ export function StandTableMesh({ table, active, nearby, onSelect }: Props) {
         />
       </mesh>
 
-      {/* Comptoir bas (matos ultra) */}
       <mesh position={[0, 0.55, 0.35]} castShadow>
         <boxGeometry args={[2.2, 0.12, 0.7]} />
         <meshStandardMaterial color="#1f242b" roughness={0.7} metalness={0.2} />
@@ -95,19 +91,21 @@ export function StandTableMesh({ table, active, nearby, onSelect }: Props) {
         <meshStandardMaterial color="#e8eef6" roughness={0.75} />
       </mesh>
 
-      {/* Pastille accès */}
+      {/* Pastille accès + label crew (ambiance) */}
       <mesh position={[0.95, 2.35, 0.06]}>
         <planeGeometry args={[0.55, 0.28]} />
         <meshStandardMaterial color="#004170" roughness={0.5} />
       </mesh>
-      <Text
-        position={[0.95, 2.35, 0.08]}
-        fontSize={0.12}
-        color="#ffffff"
-        anchorX="center"
-        anchorY="middle"
-      >
+      <Text position={[0.95, 2.35, 0.08]} fontSize={0.12} color="#ffffff" anchorX="center" anchorY="middle">
         {table.accessLabel}
+      </Text>
+
+      <mesh position={[-0.85, 2.35, 0.06]}>
+        <planeGeometry args={[0.7, 0.28]} />
+        <meshStandardMaterial color="#111111" roughness={0.55} />
+      </mesh>
+      <Text position={[-0.85, 2.35, 0.08]} fontSize={0.11} color="#f0a020" anchorX="center" anchorY="middle">
+        {table.crewTag}
       </Text>
 
       <Text

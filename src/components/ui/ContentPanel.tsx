@@ -19,7 +19,7 @@ export function ContentPanel({ tableId, onClose }: Props) {
       aria-labelledby="panel-title"
     >
       <div className="panel__header">
-        <p className="panel__eyebrow">Volet matos ultra · Virage Auteuil</p>
+        <p className="panel__eyebrow">Volet matos ultra · Virage Auteuil · hommage CUP</p>
         <button type="button" className="panel__close" onClick={onClose} aria-label="Fermer">
           Fermer · Esc
         </button>

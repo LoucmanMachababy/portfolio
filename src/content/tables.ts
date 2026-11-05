@@ -10,20 +10,20 @@ export type StandTable = {
   id: TableId;
   title: string;
   shortLabel: string;
-  /** Centre du volet / stand */
   position: [number, number, number];
   rotationY: number;
-  /** Teinte dominante du rideau métallique */
   shutterColor: string;
   accent: string;
   public: boolean;
   hint: string;
   accessLabel: string;
+  /** Branding environnemental autour du volet (groupe actuel CUP). */
+  crewTag: string;
 };
 
 /**
- * Stands = volets métalliques ondulés (refs Auteuil),
- * calés le long des murs de la coursive.
+ * Stands = volets métalliques ondulés.
+ * Contenu portfolio inchangé ; crewTag = ambiance ultra autour du nœud.
  */
 export const standTables: StandTable[] = [
   {
@@ -37,6 +37,7 @@ export const standTables: StandTable[] = [
     public: true,
     hint: "Qui je suis",
     accessLabel: "311",
+    crewTag: "K-SOCE",
   },
   {
     id: "projets",
@@ -49,6 +50,7 @@ export const standTables: StandTable[] = [
     public: true,
     hint: "Travaux vitrine",
     accessLabel: "312",
+    crewTag: "URBAN",
   },
   {
     id: "competences",
@@ -61,6 +63,7 @@ export const standTables: StandTable[] = [
     public: true,
     hint: "Compétences techniques",
     accessLabel: "411",
+    crewTag: "LCC",
   },
   {
     id: "salomon",
@@ -73,6 +76,7 @@ export const standTables: StandTable[] = [
     public: true,
     hint: "Expérience Salomon",
     accessLabel: "312",
+    crewTag: "BERIZ",
   },
   {
     id: "contact",
@@ -85,6 +89,7 @@ export const standTables: StandTable[] = [
     public: true,
     hint: "Me joindre",
     accessLabel: "311",
+    crewTag: "K-SOCE",
   },
   {
     id: "staff",
@@ -97,6 +102,7 @@ export const standTables: StandTable[] = [
     public: false,
     hint: "Zone pédagogique RNCP",
     accessLabel: "STAFF",
+    crewTag: "VA91",
   },
 ];
 
