@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auteuil — Loucman Machababy</title>
+  <style>
+    :root { --ink:#e8eef6; --muted:#9aa8b8; --bg:#0b0f14; --line:rgba(232,238,246,.14); }
+    * { box-sizing: border-box; }
+    html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); font-family: Manrope, system-ui, sans-serif; overflow:hidden; }
+    canvas { display:block; width:100%; height:100%; }
+    #ui { position:fixed; inset:0; pointer-events:none; z-index:5; }
+    #ui * { pointer-events:auto; }
+    .nav { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; padding:1rem 1.1rem; }
+    .brand strong { font-family: Impact, "Barlow Condensed", sans-serif; font-size:1.6rem; letter-spacing:.06em; }
+    .brand span { display:block; color:var(--muted); font-size:.85rem; }
+    #welcome {
+      position:absolute; inset:0; display:grid; place-items:center;
+      background: radial-gradient(800px 400px at 20% 0%, rgba(218,41,28,.18), transparent 55%),
+                  radial-gradient(700px 360px at 90% 10%, rgba(0,65,112,.25), transparent 50%),
+                  rgba(8,12,18,.78);
+      backdrop-filter: blur(6px);
+    }
+    #welcome.hidden { display:none; }
+    .card { max-width:38rem; padding:1.5rem; }
+    .card h1 { font-family: Impact, "Barlow Condensed", sans-serif; font-size:clamp(2.5rem,8vw,4.5rem); margin:0; line-height:.95; text-transform:uppercase; }
+    .card p { color:var(--muted); }
+    .cta { appearance:none; border:0; background:#DA291C; color:#fff; font-weight:700; padding:.85rem 1.2rem; cursor:pointer; }
+    #hud {
+      position:absolute; left:50%; bottom:1.2rem; transform:translateX(-50%);
+      background:rgba(11,15,20,.75); border:1px solid var(--line); padding:.45rem .8rem; font-size:.85rem; color:var(--muted);
+      pointer-events:none; display:none;
+    }
+    #chants {
+      position:absolute; right:1rem; bottom:1.2rem; display:none; gap:.4rem; align-items:center;
+      background:rgba(11,15,20,.82); border:1px solid var(--line); padding:.4rem .55rem; max-width:min(420px, calc(100vw - 2rem));
+    }
+    #chants button { appearance:none; border:1px solid var(--line); background:transparent; color:var(--ink); font-size:.78rem; padding:.35rem .55rem; cursor:pointer; }
+    #chants .t { font-size:.75rem; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+  </style>
+</head>
+<body>
+  <div id="ui">
+    <div class="nav">
+      <div class="brand"><strong>AUTEUIL</strong><span>Loucman Machababy</span></div>
+    </div>
+    <div id="welcome">
+      <div class="card">
+        <p style="text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:var(--muted)">Parc des Princes · Virage Auteuil</p>
+        <h1>Loucman Machababy</h1>
+        <p>Coursive rouge/bleu, murals ultras, volets, deux oreilles, cortège CUP. Hommage fan-culture — pas de partenariat club.</p>
+        <button class="cta" id="enter" type="button">Entrer dans la coursive</button>
+      </div>
+    </div>
+    <div id="hud">Clic = regarder · ZQSD · Esc libère</div>
+    <div id="chants">
+      <button type="button" id="mute">🔊 Chants</button>
+      <span class="t" id="track"></span>
+      <button type="button" id="next">Suivant</button>
+    </div>
+  </div>
+
+  <script type="importmap">
+    { "imports": {
+      "three": "https://unpkg.com/three@0.175.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.175.0/examples/jsm/"
+    }}
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
+
+    const ROUGE = 0xda291c, BLEU = 0x004170, OR = 0xd4af37;
+
+    const CHANTS = [
+      "tous-ensemble-on-chantera.mp3","qu-importe-le-discours.mp3","ne-jamais-rien-lacher.mp3",
+      "allez-paris-allez.mp3","nous-sommes-les-parisiens.mp3","o-ville-lumiere.mp3","psg-allez.mp3",
+      "pour-paris-mon-coeur.mp3","quand-je-repense-a-mon-passe.mp3","o-paris-sg.mp3","paris-saint-germain.mp3",
+    ];
+
+    const loader = new THREE.TextureLoader();
+    const loadTex = (url) =>
+      new Promise((resolve) => {
+        loader.load(
+          url,
+          (t) => {
+            t.colorSpace = THREE.SRGBColorSpace;
+            resolve(t);
+          },
+          undefined,
+          () => resolve(null),
+        );
+      });
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1c222a);
+    scene.fog = new THREE.Fog(0x2a3340, 24, 48);
+    const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.05, 100);
+    camera.position.set(0, 1.7, -1.2);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    renderer.setSize(innerWidth, innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+    scene.add(new THREE.HemisphereLight(0xffe8d0, 0x2a3540, 0.65));
+    const key = new THREE.DirectionalLight(0xfff4e0, 0.55);
+    key.position.set(3, 7, -2);
+    scene.add(key);
+
+    const L = 30, W = 7.2, H = 3.45;
+    const mesh = (geo, mat, pos, rot) => {
+      const m = new THREE.Mesh(geo, mat);
+      if (pos) m.position.set(...pos);
+      if (rot) m.rotation.set(...rot);
+      scene.add(m);
+      return m;
+    };
+
+    // ——— Corridor structure ———
+    mesh(
+      new THREE.PlaneGeometry(W, L),
+      new THREE.MeshStandardMaterial({ color: 0x8a4a3a, roughness: 0.92 }),
+      [0, 0, -L / 2],
+      [-Math.PI / 2, 0, 0],
+    );
+    mesh(
+      new THREE.BoxGeometry(0.5, H, L),
+      new THREE.MeshStandardMaterial({ color: 0xb4bac2, roughness: 0.88, emissive: 0x4a5560, emissiveIntensity: 0.12 }),
+      [W / 2, H / 2, -L / 2],
+    );
+    mesh(
+      new THREE.BoxGeometry(0.5, H, L),
+      new THREE.MeshStandardMaterial({ color: 0xb4bac2, roughness: 0.88, emissive: 0x4a5560, emissiveIntensity: 0.12 }),
+      [-W / 2, H / 2, -L / 2],
+    );
+    mesh(
+      new THREE.PlaneGeometry(W, L),
+      new THREE.MeshStandardMaterial({ color: 0xd2c8ba, roughness: 0.95 }),
+      [0, H, -L / 2],
+      [Math.PI / 2, 0, 0],
+    );
+    mesh(new THREE.BoxGeometry(W + 1, H, 0.5), new THREE.MeshStandardMaterial({ color: 0x5a6570 }), [0, H / 2, 1.5]);
+
+    // Fluos
+    for (let i = 0; i < 9; i++) {
+      const z = -1.5 - i * 3.2;
+      const pl = new THREE.PointLight(0xfff1c2, 2.0, 11);
+      pl.position.set(0, H - 0.45, z);
+      scene.add(pl);
+      // wall wash
+      const l = new THREE.PointLight(0xffe8b0, 0.9, 7);
+      l.position.set(-2.4, H - 1.2, z);
+      scene.add(l);
+      const r = new THREE.PointLight(0xffe8b0, 0.9, 7);
+      r.position.set(2.4, H - 1.2, z);
+      scene.add(r);
+      mesh(
+        new THREE.BoxGeometry(W - 1.2, 0.06, 0.22),
+        new THREE.MeshStandardMaterial({ color: 0xf5f0d8, emissive: 0xfff6c8, emissiveIntensity: 2.5 }),
+        [0, H - 0.08, z],
+      );
+    }
+
+    const poster = async (url, pos, rot, size) => {
+      const t = await loadTex(url);
+      const mat = t
+        ? new THREE.MeshStandardMaterial({ map: t, roughness: 0.8, side: THREE.DoubleSide })
+        : new THREE.MeshStandardMaterial({ color: 0x445566, roughness: 0.85, side: THREE.DoubleSide });
+      mesh(new THREE.PlaneGeometry(size[0], size[1]), mat, pos, rot);
+    };
+
+    // ——— Murals / décors Auteuil (hommage) ———
+    await Promise.all([
+      poster("./textures/auteuil/mural-ksoce-vieille-garde.png", [-W / 2 + 0.26, 1.55, -5.5], [0, Math.PI / 2, 0], [4.6, 2.7]),
+      poster("./textures/auteuil/mural-panthere-supras.png", [-W / 2 + 0.26, 1.55, -11], [0, Math.PI / 2, 0], [4.2, 2.6]),
+      poster("./textures/auteuil/va91-tags.png", [-W / 2 + 0.26, 1.7, -17], [0, Math.PI / 2, 0], [3.6, 2.4]),
+      poster("./textures/auteuil/graffiti-paris-st-germain-volets.png", [-W / 2 + 0.26, 1.5, -21.5], [0, Math.PI / 2, 0], [3.8, 2.4]),
+      poster("./textures/auteuil/escalier-virage-auteuil-314.png", [W / 2 - 0.26, 1.65, -2.8], [0, -Math.PI / 2, 0], [3.6, 2.5]),
+      poster("./textures/auteuil/ville-lumiere-sieges.png", [W / 2 - 0.26, 1.65, -14], [0, -Math.PI / 2, 0], [4.0, 2.5]),
+      poster("./textures/auteuil/virage-auteuil-acces-411.png", [W / 2 - 0.26, 1.55, -20], [0, -Math.PI / 2, 0], [3.4, 2.4]),
+      poster("./textures/auteuil/coursive-312-pitch-opening.png", [0, 1.55, -L + 0.55], [0, 0, 0], [5.8, 2.7]),
+      poster("./textures/auteuil/acces-312-ici-on-chante.png", [0, 2.2, -9.5], [0, 0, 0], [3.2, 0.7]),
+    ]);
+
+    // Bannières slogans (canvas)
+    const makeBanner = (text, bg, fg, w = 1024, h = 160) => {
+      const c = document.createElement("canvas");
+      c.width = w; c.height = h;
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = fg; ctx.font = "bold 48px Impact, sans-serif";
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(text, w / 2, h / 2);
+      const tex = new THREE.CanvasTexture(c);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
+    };
+    const banners = [
+      { t: "PARTOUT OÙ TU IRAS, NOUS SERONS TOUJOURS LÀ", p: [0, 3.05, -6.5], w: 6.2, fg: "#f0a020", bg: "#0a0a0a" },
+      { t: "PARIS EST MAGIQUE", p: [0, 3.05, -13.5], w: 4.2, fg: "#ffffff", bg: "#004170" },
+      { t: "VILLE LUMIÈRE", p: [0, 3.05, -20], w: 3.8, fg: "#f0a020", bg: "#0a0a0a" },
+      { t: "VIRAGE AUTEUIL", p: [-W / 2 + 0.28, 2.7, -14], w: 3.2, fg: "#ffffff", bg: "#0a0a0a", rot: [0, Math.PI / 2, 0] },
+      { t: "COLLECTIF ULTRAS PARIS", p: [0, 2.35, -27.5], w: 4.4, fg: "#f0a020", bg: "#0a0a0a" },
+      { t: "PARIS", p: [0, 2.9, -27.55], w: 3.0, fg: "#ffffff", bg: "#004170" },
+    ];
+    for (const b of banners) {
+      const tex = makeBanner(b.t, b.bg, b.fg);
+      mesh(new THREE.PlaneGeometry(b.w, 0.38), new THREE.MeshStandardMaterial({ map: tex }), b.p, b.rot || [0, 0, 0]);
+    }
+
+    // ——— Stands volets + NPCs + matos ———
+    const stands = [
+      [2.95, -5, -Math.PI / 2, ROUGE, "K-SOCE"],
+      [-2.95, -8.5, Math.PI / 2, BLEU, "URBAN"],
+      [2.95, -12, -Math.PI / 2, ROUGE, "LCC"],
+      [-2.95, -15.5, Math.PI / 2, BLEU, "BERIZ"],
+      [2.95, -19, -Math.PI / 2, ROUGE, "CUP"],
+      [-2.95, -22.5, Math.PI / 2, OR, "VA91"],
+    ];
+    for (const [x, z, ry, accent, tag] of stands) {
+      const g = new THREE.Group();
+      g.position.set(x, 0, z);
+      g.rotation.y = ry;
+      const back = new THREE.Mesh(new THREE.BoxGeometry(2.55, 2.75, 0.35), new THREE.MeshStandardMaterial({ color: 0x5a6270 }));
+      back.position.set(0, 1.35, -0.22);
+      g.add(back);
+      const shutter = new THREE.Mesh(
+        new THREE.BoxGeometry(2.35, 2.45, 0.08),
+        new THREE.MeshStandardMaterial({ color: 0xc9a227, metalness: 0.5, roughness: 0.4, emissive: accent, emissiveIntensity: 0.15 }),
+      );
+      shutter.position.set(0, 1.25, 0);
+      g.add(shutter);
+      const counter = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.12, 0.7), new THREE.MeshStandardMaterial({ color: 0x1f242b }));
+      counter.position.set(0, 0.55, 0.35);
+      g.add(counter);
+      for (let i = 0; i < 4; i++) {
+        const scarf = new THREE.Mesh(
+          new THREE.BoxGeometry(0.5, 0.04, 0.16),
+          new THREE.MeshStandardMaterial({ color: i % 2 ? ROUGE : BLEU }),
+        );
+        scarf.position.set(-0.7 + i * 0.05, 0.64 + i * 0.045, 0.4);
+        scarf.rotation.y = 0.2 + i * 0.1;
+        g.add(scarf);
+      }
+      for (let i = 0; i < 3; i++) {
+        const tee = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.06, 0.32), new THREE.MeshStandardMaterial({ color: accent }));
+        tee.position.set(-0.15 + i * 0.05, 0.65 + i * 0.07, 0.38);
+        g.add(tee);
+      }
+      // NPC beckoning
+      const npc = new THREE.Group();
+      npc.position.set(0, 0, 1.2);
+      const legs = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.55, 0.18), new THREE.MeshStandardMaterial({ color: 0x1a1f28 }));
+      legs.position.set(0, 0.45, 0);
+      npc.add(legs);
+      const torso = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.55, 0.26), new THREE.MeshStandardMaterial({ color: accent }));
+      torso.position.y = 1.05;
+      npc.add(torso);
+      const head = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.28, 0.24), new THREE.MeshStandardMaterial({ color: 0xc68642 }));
+      head.position.y = 1.48;
+      npc.add(head);
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(0.15, 12, 10, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: accent }));
+      cap.position.y = 1.62;
+      npc.add(cap);
+      const arm = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.42, 0.1), new THREE.MeshStandardMaterial({ color: accent }));
+      arm.position.set(0.28, 1.15, 0.05);
+      arm.rotation.z = 0.4;
+      npc.userData.arm = arm;
+      npc.add(arm);
+      g.add(npc);
+      // tag plane
+      const tagTex = makeBanner(tag, "#111", "#f0a020", 512, 128);
+      const tagM = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.22), new THREE.MeshStandardMaterial({ map: tagTex }));
+      tagM.position.set(0, 2.55, 0.1);
+      g.add(tagM);
+      scene.add(g);
+    }
+
+    // ——— UCL shrine ———
+    const shrine = new THREE.Group();
+    shrine.position.set(1.85, 0, -16.2);
+    const base = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.7, 0.7), new THREE.MeshStandardMaterial({ color: 0x2a3038, metalness: 0.3 }));
+    base.position.y = 0.35;
+    shrine.add(base);
+    const gold = new THREE.MeshStandardMaterial({ color: OR, metalness: 0.85, roughness: 0.25, emissive: 0x8a7020, emissiveIntensity: 0.3 });
+    for (const ox of [-0.28, 0.28]) {
+      const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 0.35, 16), gold);
+      cup.position.set(ox, 1.15, 0);
+      shrine.add(cup);
+      const ear = new THREE.Mesh(new THREE.TorusGeometry(0.14, 0.035, 8, 16, Math.PI), gold);
+      ear.position.set(ox + (ox < 0 ? -0.18 : 0.18), 1.22, 0);
+      ear.rotation.z = ox < 0 ? 0.35 : -0.35;
+      shrine.add(ear);
+    }
+    const shrineLight = new THREE.PointLight(0xffe6a8, 5, 7);
+    shrineLight.position.set(0, 2.2, 0.5);
+    shrine.add(shrineLight);
+    scene.add(shrine);
+    await Promise.all([
+      poster("./textures/auteuil/ucl/munich-5-0-inter.png", [1.9, 2.15, -16.55], [0, 0, 0], [1.05, 0.7]),
+      poster("./textures/auteuil/ucl/champions-2026-podium.png", [1.2, 1.7, -16.2], [0, Math.PI / 2.3, 0], [0.85, 0.6]),
+    ]);
+    const plaque = makeBanner("DEUX OREILLES · HOMAGE", "#1a1410", "#f0d78c");
+    mesh(new THREE.PlaneGeometry(1.15, 0.22), new THREE.MeshStandardMaterial({ map: plaque }), [1.85, 1.55, -16.45]);
+
+    // ——— Cortège ———
+    await Promise.all([
+      poster("./textures/auteuil/cortege/capo-ultras-paris-drapeaux.png", [-2.9, 1.7, -27], [0, Math.PI / 2, 0], [1.6, 1.2]),
+      poster("./textures/auteuil/cortege/coursive-batteur-cortege.png", [2.9, 1.7, -27], [0, -Math.PI / 2, 0], [1.6, 1.2]),
+      poster("./textures/auteuil/cortege/banderole-paris-blason.png", [0, 1.9, -28.2], [0, 0, 0], [2.4, 1.0]),
+      poster("./textures/auteuil/cortege/cortege-paris-fumigene.png", [0, 1.6, -26.6], [0, 0, 0], [2.0, 1.1]),
+    ]);
+    for (let i = 0; i < 9; i++) {
+      const p = new THREE.Group();
+      p.position.set(-1.7 + (i % 5) * 0.85, 0, -27.2 + 0.2 + Math.floor(i / 5) * 0.55);
+      const c = i % 2 ? BLEU : ROUGE;
+      const torso = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.48, 0.22), new THREE.MeshStandardMaterial({ color: c }));
+      torso.position.y = 1.0;
+      p.add(torso);
+      const h = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.24, 0.2), new THREE.MeshStandardMaterial({ color: 0xc68642 }));
+      h.position.y = 1.4;
+      p.add(h);
+      scene.add(p);
+    }
+    const crowdLight = new THREE.PointLight(0xfff1d0, 3.5, 12);
+    crowdLight.position.set(0, 2.5, -26);
+    scene.add(crowdLight);
+
+    // Controls + audio
+    const controls = new PointerLockControls(camera, document.body);
+    const keys = {};
+    addEventListener("keydown", (e) => (keys[e.code] = true));
+    addEventListener("keyup", (e) => (keys[e.code] = false));
+    addEventListener("resize", () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    let idx = 0;
+    const audio = new Audio();
+    audio.volume = 0.42;
+    const trackEl = document.getElementById("track");
+    const loadTrack = (i) => {
+      idx = ((i % CHANTS.length) + CHANTS.length) % CHANTS.length;
+      audio.src = `./audio/chants/${CHANTS[idx]}`;
+      trackEl.textContent = CHANTS[idx].replace(/\.mp3$/, "").replace(/-/g, " ");
+      audio.load();
+    };
+    loadTrack(0);
+    audio.addEventListener("ended", () => { loadTrack(idx + 1); audio.play().catch(() => {}); });
+    document.getElementById("mute").onclick = () => {
+      audio.muted = !audio.muted;
+      document.getElementById("mute").textContent = audio.muted ? "🔇 Chants" : "🔊 Chants";
+    };
+    document.getElementById("next").onclick = () => { loadTrack(idx + 1); audio.play().catch(() => {}); };
+
+    let started = false;
+    document.getElementById("enter").onclick = () => {
+      started = true;
+      document.getElementById("welcome").classList.add("hidden");
+      document.getElementById("hud").style.display = "block";
+      document.getElementById("chants").style.display = "flex";
+      controls.lock();
+      audio.play().catch(() => {});
+    };
+    renderer.domElement.addEventListener("click", () => { if (started) controls.lock(); });
+
+    const arms = [];
+    scene.traverse((o) => { if (o.userData && o.userData.arm) arms.push(o.userData.arm); });
+
+    function tick() {
+      requestAnimationFrame(tick);
+      const t = performance.now() / 1000;
+      if (controls.isLocked) {
+        const s = 0.09;
+        if (keys.KeyW || keys.ArrowUp) controls.moveForward(s);
+        if (keys.KeyS || keys.ArrowDown) controls.moveForward(-s);
+        if (keys.KeyA || keys.ArrowLeft) controls.moveRight(-s);
+        if (keys.KeyD || keys.ArrowRight) controls.moveRight(s);
+        camera.position.y = 1.7;
+        camera.position.x = THREE.MathUtils.clamp(camera.position.x, -2.5, 2.5);
+        camera.position.z = THREE.MathUtils.clamp(camera.position.z, -28, -0.5);
+      }
+      for (const arm of arms) arm.rotation.x = -0.5 + Math.sin(t * 3) * 0.5;
+      renderer.render(scene, camera);
+    }
+    tick();
+  </script>
+</body>
+</html>
