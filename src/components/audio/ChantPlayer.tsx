@@ -20,7 +20,7 @@ export function ChantPlayer({ active }: Props) {
   const idxRef = useRef(0);
   const rafRef = useRef(0);
   const [muted, setMuted] = useState(false);
-  const [title, setTitle] = useState(CHANT_PLAYLIST[0].title);
+  const [title, setTitle] = useState<string>(CHANT_PLAYLIST[0].title);
 
   const loadIndex = useCallback((i: number) => {
     const audio = audioRef.current;

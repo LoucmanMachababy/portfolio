@@ -134,7 +134,9 @@ export function StandTableMesh({ table, active, nearby, onSelect }: Props) {
 
         {(nearby || active) && (
           <Html position={[0, 3.05, 0.2]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
-            <div className="table-hint">{active ? "Volet ouvert" : "E — lever le volet"}</div>
+            <div className="table-hint">
+              {active ? "Panneau portfolio ouvert" : "E — ouvrir le panneau portfolio"}
+            </div>
           </Html>
         )}
       </group>

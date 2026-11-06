@@ -1,10 +1,9 @@
 "use client";
 
-import { Suspense, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { AUTEUIL, makeBannerTexture, makeTeeTexture } from "./textures";
+import { AUTEUIL, makeBannerTexture, makeStylizedMural, makeTeeTexture } from "./textures";
 import { chantBeat } from "@/lib/chants";
 
 /** Bout de coursive (length 30) — hors axe central. */
@@ -98,22 +97,21 @@ function CrowdPerson({
 }
 
 function CortegePoster({
-  url,
+  kind,
   position,
   rotation,
   size,
 }: {
-  url: string;
+  kind: "cortegeCapo" | "cortegeDrum" | "cortegeBanner";
   position: [number, number, number];
   rotation: [number, number, number];
   size: [number, number];
 }) {
-  const texture = useTexture(url);
-  texture.colorSpace = THREE.SRGBColorSpace;
+  const map = useMemo(() => makeStylizedMural(kind), [kind]);
   return (
     <mesh position={position} rotation={rotation}>
       <planeGeometry args={size} />
-      <meshStandardMaterial map={texture} roughness={0.75} side={THREE.DoubleSide} />
+      <meshStandardMaterial map={map} roughness={0.75} side={THREE.DoubleSide} />
     </mesh>
   );
 }
@@ -189,26 +187,24 @@ export function CortegeCrowd() {
 
       <pointLight position={[0, 2.5, 1]} intensity={3.5} distance={10} color="#fff1d0" />
 
-      <Suspense fallback={null}>
-        <CortegePoster
-          url="/textures/auteuil/cortege/capo-ultras-paris-drapeaux.png"
-          position={[-2.9, 1.7, 0.2]}
-          rotation={[0, Math.PI / 2, 0]}
-          size={[1.6, 1.2]}
-        />
-        <CortegePoster
-          url="/textures/auteuil/cortege/coursive-batteur-cortege.png"
-          position={[2.9, 1.7, 0.2]}
-          rotation={[0, -Math.PI / 2, 0]}
-          size={[1.6, 1.2]}
-        />
-        <CortegePoster
-          url="/textures/auteuil/cortege/banderole-paris-blason.png"
-          position={[0, 1.9, -1.1]}
-          rotation={[0, 0, 0]}
-          size={[2.4, 1.0]}
-        />
-      </Suspense>
+      <CortegePoster
+        kind="cortegeCapo"
+        position={[-2.9, 1.7, 0.2]}
+        rotation={[0, Math.PI / 2, 0]}
+        size={[1.6, 1.2]}
+      />
+      <CortegePoster
+        kind="cortegeDrum"
+        position={[2.9, 1.7, 0.2]}
+        rotation={[0, -Math.PI / 2, 0]}
+        size={[1.6, 1.2]}
+      />
+      <CortegePoster
+        kind="cortegeBanner"
+        position={[0, 1.9, -1.1]}
+        rotation={[0, 0, 0]}
+        size={[2.4, 1.0]}
+      />
     </group>
   );
 }

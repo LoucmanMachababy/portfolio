@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useMemo } from "react";
-import { useTexture } from "@react-three/drei";
+import { useMemo } from "react";
 import * as THREE from "three";
 import {
   AUTEUIL,
@@ -11,6 +10,8 @@ import {
   makeCrewFlagTexture,
   makeFloorTexture,
   makeHeritageSticker,
+  makeStylizedMural,
+  type StylizedMuralKind,
 } from "./textures";
 
 export const CORRIDOR_LENGTH = 30;
@@ -174,55 +175,24 @@ function SlantedTiers() {
   );
 }
 
-function MuralFallback({
+/** Fresque stylisée (canvas) — pas de photo brute. */
+function StylizedMural({
+  kind,
   position,
   rotation,
   size,
 }: {
+  kind: StylizedMuralKind;
   position: [number, number, number];
   rotation: [number, number, number];
   size: [number, number];
 }) {
+  const map = useMemo(() => makeStylizedMural(kind), [kind]);
   return (
     <mesh position={position} rotation={rotation}>
       <planeGeometry args={size} />
-      <meshStandardMaterial color="#6a7180" roughness={0.9} metalness={0.02} />
+      <meshStandardMaterial map={map} roughness={0.85} metalness={0.02} side={THREE.DoubleSide} />
     </mesh>
-  );
-}
-
-function MuralPlaneTextured({
-  url,
-  position,
-  rotation,
-  size,
-}: {
-  url: string;
-  position: [number, number, number];
-  rotation: [number, number, number];
-  size: [number, number];
-}) {
-  const texture = useTexture(url);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return (
-    <mesh position={position} rotation={rotation}>
-      <planeGeometry args={size} />
-      <meshStandardMaterial map={texture} roughness={0.85} metalness={0.02} side={THREE.DoubleSide} />
-    </mesh>
-  );
-}
-
-function MuralPlane(props: {
-  url: string;
-  position: [number, number, number];
-  rotation: [number, number, number];
-  size: [number, number];
-}) {
-  const { position, rotation, size } = props;
-  return (
-    <Suspense fallback={<MuralFallback position={position} rotation={rotation} size={size} />}>
-      <MuralPlaneTextured {...props} />
-    </Suspense>
   );
 }
 
@@ -368,45 +338,45 @@ export function Corridor() {
       </mesh>
       <SlantedTiers />
 
-      {/* Murals — refs Loucman (hommage fan-culture) */}
-      <MuralPlane
-        url="/textures/auteuil/mural-ksoce-vieille-garde.png"
+      {/* Fresques stylisées (inspiration refs — jamais de photo brute) */}
+      <StylizedMural
+        kind="ksoce"
         position={[-CORRIDOR_WIDTH / 2 + 0.22, 1.55, -5.5]}
         rotation={[0, Math.PI / 2, 0]}
         size={[4.6, 2.7]}
       />
-      <MuralPlane
-        url="/textures/auteuil/mural-panthere-supras.png"
+      <StylizedMural
+        kind="panther"
         position={[-CORRIDOR_WIDTH / 2 + 0.22, 1.55, -11]}
         rotation={[0, Math.PI / 2, 0]}
         size={[4.2, 2.6]}
       />
-      <MuralPlane
-        url="/textures/auteuil/va91-tags.png"
+      <StylizedMural
+        kind="va91"
         position={[-CORRIDOR_WIDTH / 2 + 0.22, 1.7, -17]}
         rotation={[0, Math.PI / 2, 0]}
         size={[3.6, 2.4]}
       />
-      <MuralPlane
-        url="/textures/auteuil/escalier-virage-auteuil-314.png"
+      <StylizedMural
+        kind="stairs"
         position={[CORRIDOR_WIDTH / 2 - 0.22, 1.65, -2.8]}
         rotation={[0, -Math.PI / 2, 0]}
         size={[3.6, 2.5]}
       />
-      <MuralPlane
-        url="/textures/auteuil/ville-lumiere-sieges.png"
+      <StylizedMural
+        kind="ville"
         position={[CORRIDOR_WIDTH / 2 - 0.22, 1.65, -14]}
         rotation={[0, -Math.PI / 2, 0]}
         size={[4.0, 2.5]}
       />
-      <MuralPlane
-        url="/textures/auteuil/coursive-312-pitch-opening.png"
+      <StylizedMural
+        kind="pitch"
         position={[0, 1.55, -CORRIDOR_LENGTH + 0.55]}
         rotation={[0, 0, 0]}
         size={[5.8, 2.7]}
       />
-      <MuralPlane
-        url="/textures/auteuil/graffiti-paris-st-germain-volets.png"
+      <StylizedMural
+        kind="parisGraff"
         position={[-CORRIDOR_WIDTH / 2 + 0.22, 1.5, -21.5]}
         rotation={[0, Math.PI / 2, 0]}
         size={[3.8, 2.4]}

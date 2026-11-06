@@ -1,10 +1,9 @@
 "use client";
 
-import { Suspense, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { makeBannerTexture, AUTEUIL } from "./textures";
+import { makeBannerTexture, makeStylizedMural, AUTEUIL } from "./textures";
 
 /** Twin Big Ears — hommage fan (pas une affiliation UEFA/PSG). */
 function BigEarsTrophy({
@@ -18,12 +17,10 @@ function BigEarsTrophy({
   const goldDark = "#8a7020";
   return (
     <group position={position} scale={scale}>
-      {/* Coupe */}
       <mesh position={[0, 0.55, 0]} castShadow>
         <cylinderGeometry args={[0.12, 0.18, 0.35, 16]} />
         <meshStandardMaterial color={gold} metalness={0.85} roughness={0.25} emissive={goldDark} emissiveIntensity={0.25} />
       </mesh>
-      {/* Oreilles */}
       <mesh position={[-0.22, 0.62, 0]} rotation={[0, 0, 0.35]} castShadow>
         <torusGeometry args={[0.14, 0.035, 8, 16, Math.PI]} />
         <meshStandardMaterial color={gold} metalness={0.85} roughness={0.25} emissive={goldDark} emissiveIntensity={0.2} />
@@ -32,7 +29,6 @@ function BigEarsTrophy({
         <torusGeometry args={[0.14, 0.035, 8, 16, Math.PI]} />
         <meshStandardMaterial color={gold} metalness={0.85} roughness={0.25} emissive={goldDark} emissiveIntensity={0.2} />
       </mesh>
-      {/* Pied */}
       <mesh position={[0, 0.28, 0]} castShadow>
         <cylinderGeometry args={[0.06, 0.1, 0.22, 12]} />
         <meshStandardMaterial color={gold} metalness={0.8} roughness={0.3} />
@@ -75,9 +71,7 @@ function SoftGoldConfetti({ count = 28 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={positions.length / 3}
-          array={positions}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial color="#f0d78c" size={0.035} transparent opacity={0.55} depthWrite={false} sizeAttenuation />
@@ -85,29 +79,28 @@ function SoftGoldConfetti({ count = 28 }: { count?: number }) {
   );
 }
 
-function UclPoster({
-  url,
+function StylizedPoster({
+  kind,
   position,
   rotation,
   size,
 }: {
-  url: string;
+  kind: "uclMunich" | "uclPodium";
   position: [number, number, number];
   rotation: [number, number, number];
   size: [number, number];
 }) {
-  const texture = useTexture(url);
-  texture.colorSpace = THREE.SRGBColorSpace;
+  const map = useMemo(() => makeStylizedMural(kind), [kind]);
   return (
     <mesh position={position} rotation={rotation}>
       <planeGeometry args={size} />
-      <meshStandardMaterial map={texture} roughness={0.7} emissive="#221800" emissiveIntensity={0.15} />
+      <meshStandardMaterial map={map} roughness={0.7} emissive="#221800" emissiveIntensity={0.15} />
     </mesh>
   );
 }
 
 /**
- * Sanctuaire discret milieu-coursive : 2 oreilles + posters Munich / podium.
+ * Sanctuaire discret milieu-coursive : 2 oreilles + posters stylisés.
  * Hors axe de marche (légèrement sur le côté droit).
  */
 export function ChampionsShrine() {
@@ -118,7 +111,6 @@ export function ChampionsShrine() {
 
   return (
     <group position={[1.85, 0, -16.2]}>
-      {/* Socle / vitrine basse */}
       <mesh position={[0, 0.35, 0]} castShadow receiveShadow>
         <boxGeometry args={[1.35, 0.7, 0.7]} />
         <meshStandardMaterial color="#2a3038" roughness={0.6} metalness={0.25} />
@@ -141,22 +133,19 @@ export function ChampionsShrine() {
 
       <SoftGoldConfetti />
 
-      <Suspense fallback={null}>
-        <UclPoster
-          url="/textures/auteuil/ucl/munich-5-0-inter.png"
-          position={[0.05, 2.15, -0.32]}
-          rotation={[0, 0, 0]}
-          size={[1.05, 0.7]}
-        />
-        <UclPoster
-          url="/textures/auteuil/ucl/champions-2026-podium.png"
-          position={[-1.15, 1.7, 0]}
-          rotation={[0, Math.PI / 2.4, 0]}
-          size={[0.85, 0.6]}
-        />
-      </Suspense>
+      <StylizedPoster
+        kind="uclMunich"
+        position={[0.05, 2.15, -0.32]}
+        rotation={[0, 0, 0]}
+        size={[1.05, 0.7]}
+      />
+      <StylizedPoster
+        kind="uclPodium"
+        position={[-1.15, 1.7, 0]}
+        rotation={[0, Math.PI / 2.4, 0]}
+        size={[0.85, 0.6]}
+      />
 
-      {/* Petit cadre année — canvas, pas Text */}
       <mesh position={[0.55, 1.15, 0.28]} rotation={[0, -0.4, 0]}>
         <planeGeometry args={[0.35, 0.18]} />
         <meshStandardMaterial color={AUTEUIL.bleu} emissive={AUTEUIL.bleu} emissiveIntensity={0.3} />

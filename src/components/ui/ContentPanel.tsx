@@ -19,7 +19,7 @@ export function ContentPanel({ tableId, onClose }: Props) {
       aria-labelledby="panel-title"
     >
       <div className="panel__header">
-        <p className="panel__eyebrow">Volet matos ultra · Virage Auteuil · hommage CUP</p>
+        <p className="panel__eyebrow">Buvette portfolio · Virage Auteuil</p>
         <button type="button" className="panel__close" onClick={onClose} aria-label="Fermer">
           Fermer · Esc
         </button>
@@ -55,7 +55,8 @@ function renderContent(id: TableId) {
         <article>
           <h2 id="panel-title">Maillots collectés — projets vitrine</h2>
           <p>
-            Trois travaux publics uniquement : pas de dump de tous les repos école ici.
+            Le cœur public du portfolio : <strong>Maison Mayssa</strong>,{" "}
+            <strong>Water Plomberie</strong>, <strong>Sportly</strong>.
           </p>
           <ul className="panel__cards">
             {publicProjects.map((project) => (
@@ -68,7 +69,9 @@ function renderContent(id: TableId) {
                   <a href={project.url} target="_blank" rel="noopener noreferrer">
                     Voir le site
                   </a>
-                ) : null}
+                ) : (
+                  <p className="panel__meta">Application mobile — détails à venir</p>
+                )}
               </li>
             ))}
           </ul>

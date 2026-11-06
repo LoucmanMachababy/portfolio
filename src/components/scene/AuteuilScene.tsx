@@ -19,7 +19,7 @@ type Props = {
 };
 
 class SceneErrorBoundary extends Component<
-  { children: ReactNode },
+  { children: ReactNode; label?: string },
   { error: Error | null }
 > {
   state = { error: null as Error | null };
@@ -27,7 +27,7 @@ class SceneErrorBoundary extends Component<
     return { error };
   }
   componentDidCatch(error: Error) {
-    console.error("[AuteuilScene extras]", error);
+    console.error(`[AuteuilScene ${this.props.label ?? "extras"}]`, error);
   }
   render() {
     if (this.state.error) return null;
@@ -35,7 +35,7 @@ class SceneErrorBoundary extends Component<
   }
 }
 
-/** Toujours visible (unlit) — même si Corridor/textures plantent. */
+/** Structure de secours unlit — visible même si Corridor plante. */
 function CoreCorridor() {
   const L = 30;
   const W = 7.2;
@@ -44,19 +44,19 @@ function CoreCorridor() {
     <group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -L / 2]}>
         <planeGeometry args={[W, L]} />
-        <meshBasicMaterial color="#d4654a" />
+        <meshBasicMaterial color="#8a4a3a" />
       </mesh>
       <mesh position={[W / 2, H / 2, -L / 2]}>
         <boxGeometry args={[0.55, H, L]} />
-        <meshBasicMaterial color="#dce2ea" />
+        <meshBasicMaterial color="#b4bac2" />
       </mesh>
       <mesh position={[-W / 2, H / 2, -L / 2]}>
         <boxGeometry args={[0.55, H, L]} />
-        <meshBasicMaterial color="#dce2ea" />
+        <meshBasicMaterial color="#b4bac2" />
       </mesh>
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, H, -L / 2]}>
         <planeGeometry args={[W, L]} />
-        <meshBasicMaterial color="#efe4d4" />
+        <meshBasicMaterial color="#d2c8ba" />
       </mesh>
       <mesh position={[0, H / 2, 1.6]}>
         <boxGeometry args={[W + 1, H, 0.55]} />
@@ -98,7 +98,14 @@ export function AuteuilScene({
         gl.setClearColor("#5a6a7a", 1);
         camera.lookAt(0, 1.4, -8);
       }}
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", background: "#5a6a7a" }}
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        display: "block",
+        background: "#5a6a7a",
+      }}
     >
       <ambientLight intensity={1.1} />
       <hemisphereLight args={["#fff5e6", "#3a4552", 0.8]} />
@@ -113,18 +120,22 @@ export function AuteuilScene({
         onLockChange={onLockChange}
       />
 
-      <SceneErrorBoundary>
+      {/* Stands portfolio TOUJOURS montés (hors extras décoratifs). */}
+      <SceneErrorBoundary label="stands">
+        {standTables.map((table) => (
+          <StandTableMesh
+            key={table.id}
+            table={table}
+            active={activeTable === table.id}
+            nearby={nearby === table.id}
+            onSelect={onOpenTable}
+          />
+        ))}
+      </SceneErrorBoundary>
+
+      <SceneErrorBoundary label="decor">
         <Suspense fallback={null}>
           <Corridor />
-          {standTables.map((table) => (
-            <StandTableMesh
-              key={table.id}
-              table={table}
-              active={activeTable === table.id}
-              nearby={nearby === table.id}
-              onSelect={onOpenTable}
-            />
-          ))}
           <ChampionsShrine />
           <CortegeCrowd />
         </Suspense>
