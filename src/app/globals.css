@@ -79,6 +79,19 @@ textarea {
   height: 100%;
 }
 
+.experience__stage {
+  background: #5a6a7a;
+  z-index: 0;
+}
+
+.auteuil-canvas,
+.auteuil-canvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  touch-action: none;
+}
+
 .scene-loading {
   display: grid;
   place-items: center;

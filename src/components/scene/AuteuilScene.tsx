@@ -18,60 +18,49 @@ type Props = {
   onLockChange?: (locked: boolean) => void;
 };
 
-/** Empêche un crash texture/font de laisser le canvas noir. */
 class SceneErrorBoundary extends Component<
-  { children: ReactNode; fallback?: ReactNode },
+  { children: ReactNode },
   { error: Error | null }
 > {
   state = { error: null as Error | null };
   static getDerivedStateFromError(error: Error) {
     return { error };
   }
+  componentDidCatch(error: Error) {
+    console.error("[AuteuilScene extras]", error);
+  }
   render() {
-    if (this.state.error) return this.props.fallback ?? null;
+    if (this.state.error) return null;
     return this.props.children;
   }
 }
 
-function RootLights() {
-  return (
-    <>
-      <color attach="background" args={["#2a3340"]} />
-      <fog attach="fog" args={["#3a4552", 28, 55]} />
-      <ambientLight intensity={0.95} />
-      <hemisphereLight args={["#f0e6d4", "#4a5562", 0.85]} />
-      <directionalLight position={[3, 7, -2]} intensity={0.75} color="#fff6e8" />
-      <directionalLight position={[-4, 5, -16]} intensity={0.45} color="#d8e6ff" />
-    </>
-  );
-}
-
-/** Coque toujours visible (hors Suspense) — anti écran noir si textures/fonts pètent. */
-function VisibleCorridorShell() {
+/** Toujours visible (unlit) — même si Corridor/textures plantent. */
+function CoreCorridor() {
   const L = 30;
   const W = 7.2;
   const H = 3.45;
   return (
     <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -L / 2]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -L / 2]}>
         <planeGeometry args={[W, L]} />
-        <meshStandardMaterial color="#8a4a3a" roughness={0.95} />
+        <meshBasicMaterial color="#d4654a" />
       </mesh>
-      <mesh position={[W / 2, H / 2, -L / 2]} receiveShadow>
-        <boxGeometry args={[0.45, H, L]} />
-        <meshStandardMaterial color="#b4bac2" roughness={0.85} emissive="#6a7380" emissiveIntensity={0.25} />
+      <mesh position={[W / 2, H / 2, -L / 2]}>
+        <boxGeometry args={[0.55, H, L]} />
+        <meshBasicMaterial color="#dce2ea" />
       </mesh>
-      <mesh position={[-W / 2, H / 2, -L / 2]} receiveShadow>
-        <boxGeometry args={[0.45, H, L]} />
-        <meshStandardMaterial color="#b4bac2" roughness={0.85} emissive="#6a7380" emissiveIntensity={0.25} />
+      <mesh position={[-W / 2, H / 2, -L / 2]}>
+        <boxGeometry args={[0.55, H, L]} />
+        <meshBasicMaterial color="#dce2ea" />
       </mesh>
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, H, -L / 2]}>
         <planeGeometry args={[W, L]} />
-        <meshStandardMaterial color="#d2c8ba" roughness={0.95} />
+        <meshBasicMaterial color="#efe4d4" />
       </mesh>
-      <mesh position={[0, H / 2, 1.4]}>
-        <boxGeometry args={[W + 0.6, H, 0.45]} />
-        <meshStandardMaterial color="#6a717a" roughness={0.9} />
+      <mesh position={[0, H / 2, 1.6]}>
+        <boxGeometry args={[W + 1, H, 0.55]} />
+        <meshBasicMaterial color="#4a5560" />
       </mesh>
     </group>
   );
@@ -102,18 +91,19 @@ export function AuteuilScene({
   return (
     <Canvas
       className="auteuil-canvas"
-      shadows
       dpr={[1, 1.5]}
-      camera={{ fov: 72, near: 0.08, far: 80, position: [0, 1.68, -1.8] }}
-      gl={{ antialias: true, powerPreference: "high-performance" }}
-      onCreated={({ gl }) => {
-        gl.toneMappingExposure = 1.25;
-        gl.setClearColor("#2a3340");
+      camera={{ fov: 75, near: 0.05, far: 100, position: [0, 1.7, -1.2] }}
+      gl={{ antialias: true, alpha: false, powerPreference: "default" }}
+      onCreated={({ gl, camera }) => {
+        gl.setClearColor("#5a6a7a", 1);
+        camera.lookAt(0, 1.4, -8);
       }}
-      style={{ cursor: controlsEnabled && !panelOpen ? "crosshair" : "default" }}
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", background: "#5a6a7a" }}
     >
-      {/* Toujours montés — ne dépendent pas de Suspense (fonts/textures) */}
-      <RootLights />
+      <ambientLight intensity={1.1} />
+      <hemisphereLight args={["#fff5e6", "#3a4552", 0.8]} />
+      <CoreCorridor />
+
       <PlayerControls
         enabled={controlsEnabled}
         tables={standTables}
@@ -123,14 +113,9 @@ export function AuteuilScene({
         onLockChange={onLockChange}
       />
 
-      <SceneErrorBoundary fallback={<VisibleCorridorShell />}>
-        <Suspense fallback={<VisibleCorridorShell />}>
-          <Corridor />
-        </Suspense>
-      </SceneErrorBoundary>
-
       <SceneErrorBoundary>
         <Suspense fallback={null}>
+          <Corridor />
           {standTables.map((table) => (
             <StandTableMesh
               key={table.id}
